@@ -23,7 +23,7 @@ public class Trip {
 
     @NonNull
     @OneToOne
-    private Package aPackage;
+    private Variation aPackage;
 
     @NonNull
     private Date departureDate;

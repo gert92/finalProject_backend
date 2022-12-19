@@ -29,6 +29,6 @@ public class Hotel {
     // delete the following
     @NonNull
     @OneToMany
-    private List<Package> Packages;
+    private List<Variation> Packages;
 
 }

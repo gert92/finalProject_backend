@@ -8,6 +8,7 @@ public class SdaTravelAgencyApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SdaTravelAgencyApplication.class, args);
+
     }
 
 }

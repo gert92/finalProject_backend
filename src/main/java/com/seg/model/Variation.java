@@ -11,7 +11,7 @@ import java.util.Date;
 @Setter
 @Getter
 @Table(name = "packages")
-public class Package {
+public class Variation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
