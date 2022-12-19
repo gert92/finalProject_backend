@@ -1,4 +1,4 @@
-package com.seg.model;
+package com.seg.constants;
 
 public enum PersonType {
 
