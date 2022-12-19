@@ -14,7 +14,7 @@ import java.util.Date;
 public class Package {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private long id;
     @NonNull
     private Date startDate;
     @NonNull

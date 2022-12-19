@@ -1,9 +1,10 @@
 package com.seg.repository;
 
+import com.seg.model.Country;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PackageRepository extends JpaRepository<Package,Long> {
+public interface CountryRepository extends JpaRepository<Country,Long> {
 
 }

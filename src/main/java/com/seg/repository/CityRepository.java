@@ -1,9 +1,9 @@
 package com.seg.repository;
 
+import com.seg.model.City;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PackageRepository extends JpaRepository<Package,Long> {
-
+public interface CityRepository extends JpaRepository<City,Long> {
 }
