@@ -1,6 +1,7 @@
 package com.seg.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.Date;
@@ -19,26 +20,32 @@ public class Trip {
 
     @NonNull
     @ManyToOne
+    @NotBlank(message = "Line can't be empty")
     private User user;
 
     @NonNull
     @OneToOne
+    @NotBlank(message = "Line can't be empty")
     private Variation aPackage;
 
     @NonNull
+    @NotBlank(message = "Please choose a date")
     private Date departureDate;
 
     @NonNull
+    @NotBlank(message = "Please choose a date")
     private Date returnDate;
 
     @NonNull
-    @OneToOne
+    @OneToOne@NotBlank(message = "Please choose a Hotel")
     private Hotel hotel;
 
     @NonNull
+    @NotBlank(message = "Please add number of adults")
     private int numberOfAdults;
 
     @NonNull
+    @NotBlank(message = "Please add number of children")
     private int numberOfChildren;
 
 
