@@ -61,7 +61,7 @@ public class HotelController {
         try{
             Hotel newHotel = hotelRepository.save(new Hotel(hotel.getName()
                     ,hotel.getTag(),hotel.getCountry(),hotel.getCity()
-                    ,hotel.getPackages()));
+                    ,hotel.getVariations()));
             return new ResponseEntity<>(newHotel,HttpStatus.CREATED);
 
         }catch(Exception e){
@@ -80,7 +80,7 @@ public class HotelController {
                 oldHotel.setName(hotel.getName());
                 oldHotel.setCountry(hotel.getCountry());
                 oldHotel.setCity(hotel.getCity());
-                oldHotel.setPackages(hotel.getPackages());
+                oldHotel.setVariations(hotel.getVariations());
 
             }
             return new ResponseEntity<>(hotelRepository.save(oldHotel),HttpStatus.OK);
