@@ -26,7 +26,7 @@ public class Trip {
     @NonNull
     @OneToOne
     @NotBlank(message = "Line can't be empty")
-    private Variation aPackage;
+    private Variation packageVariation;
 
     @NonNull
     @NotBlank(message = "Please choose a date")
@@ -42,11 +42,11 @@ public class Trip {
 
     @NonNull
     @NotBlank(message = "Please add number of adults")
-    private int numberOfAdults;
+    private int adults;
 
     @NonNull
     @NotBlank(message = "Please add number of children")
-    private int numberOfChildren;
+    private int childs;
 
 
 }
