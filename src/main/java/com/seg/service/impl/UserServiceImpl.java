@@ -1,5 +1,6 @@
 package com.seg.service.impl;
 
+import com.seg.exception.UserNotFoundException;
 import com.seg.model.User;
 import com.seg.repository.TripRepository;
 import com.seg.repository.UserRepository;
@@ -31,7 +32,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(Long id) {
-        return userRepository.findById(id).get();
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("No user by ID: " + id));
     }
 
     @Override

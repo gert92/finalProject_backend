@@ -1,5 +1,6 @@
 package com.seg.service.impl;
 
+import com.seg.exception.UserNotFoundException;
 import com.seg.model.Trip;
 import com.seg.repository.TripRepository;
 import com.seg.service.TripService;
@@ -31,7 +32,8 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public Trip getTripById(Long id) {
-        return tripRepository.findById(id).get();
+        return tripRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("No user by ID: " + id));
     }
 
     @Override
