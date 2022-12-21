@@ -19,12 +19,14 @@ public class Trip {
     private long id;
 
     @NonNull
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     @NotBlank(message = "Line can't be empty")
     private User user;
 
     @NonNull
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "variation_id", referencedColumnName = "id")
     @NotBlank(message = "Line can't be empty")
     private Variation packageVariation;
 
@@ -37,7 +39,9 @@ public class Trip {
     private Date returnDate;
 
     @NonNull
-    @OneToOne@NotBlank(message = "Please choose a Hotel")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "hotel_id", referencedColumnName = "id")
+    @NotBlank(message = "Please choose a Hotel")
     private Hotel hotel;
 
     @NonNull
