@@ -1,8 +1,7 @@
 package com.seg.service.impl;
 
 import com.seg.exception.UserNotFoundException;
-import com.seg.model.User;
-import com.seg.repository.TripRepository;
+import com.seg.model.Customer;
 import com.seg.repository.UserRepository;
 import com.seg.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,24 +20,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public List<Customer> getAllUsers() {
         return userRepository.findAll();
     }
 
     @Override
-    public User saveUser(User user) {
-        return userRepository.save(user);
+    public Customer saveUser(Customer customer) {
+        return userRepository.save(customer);
     }
 
     @Override
-    public User getUserById(Long id) {
+    public Customer getUserById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("No user by ID: " + id));
     }
 
     @Override
-    public User updateUser(User user) {
-        return userRepository.save(user);
+    public Customer updateUser(Customer customer) {
+        return userRepository.save(customer);
     }
 
     @Override

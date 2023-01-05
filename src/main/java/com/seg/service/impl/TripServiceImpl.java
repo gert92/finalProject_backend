@@ -1,48 +1,141 @@
 package com.seg.service.impl;
 
-import com.seg.exception.UserNotFoundException;
 import com.seg.model.Trip;
+import com.seg.model.Variation;
 import com.seg.repository.TripRepository;
+import com.seg.repository.VariationRepository;
 import com.seg.service.TripService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
 public class TripServiceImpl implements TripService {
 
     private TripRepository tripRepository;
+    private VariationRepository variationRepository;
 
     @Autowired
-    public TripServiceImpl(TripRepository tripRepository) {
+    public TripServiceImpl(TripRepository tripRepository,VariationRepository variationRepository) {
         this.tripRepository = tripRepository;
+        this.variationRepository=variationRepository;
     }
 
     @Override
-    public List<Trip> getAllTrips() {
-        return tripRepository.findAll();
+    public ResponseEntity<List<Trip>> getAllTrips() {
+        try {
+            return  new ResponseEntity<>(tripRepository.findAll(),HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
     @Override
-    public Trip saveTrip(Trip trip) {
-        return tripRepository.save(trip);
+    public ResponseEntity<Trip> saveTrip(Trip trip) {
+        try{
+            Trip myTrip = tripRepository.save(new Trip(
+                    trip.getCustomer(),
+                    trip.getPackageVariation(),
+                    trip.getDepartureDate(),
+                    trip.getReturnDate(),
+                    trip.getHotel(),
+                    trip.getAdults(),
+                    trip.getChild()));
+
+            myTrip.getPackageVariation()
+                    .setFreeSeats(myTrip.getPackageVariation().getFreeSeats()-myTrip.getAdults()-myTrip.getChild());
+            variationRepository.save(myTrip.getPackageVariation());
+            return new ResponseEntity<>(trip,HttpStatus.CREATED);
+        }catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+
+
     }
 
     @Override
-    public Trip getTripById(Long id) {
-        return tripRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("No user by ID: " + id));
+    public ResponseEntity<Trip> getTripById(Long id) {
+        try{
+            Optional<Trip> foundTrip =  tripRepository.findById(id);
+            if(foundTrip.isPresent()){
+                return new ResponseEntity<>(foundTrip.get(),HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        }catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+
     }
 
     @Override
-    public Trip updateTrip(Trip trip) {
-        return tripRepository.save(trip);
+    public ResponseEntity<Trip> updateTrip(Long id,Trip trip) {
+        try{
+            Optional<Trip> foundTrip = tripRepository.findById(id);
+
+            Trip oldTrip= new Trip();
+            if (foundTrip.isPresent()) {
+                oldTrip = foundTrip.get();
+                oldTrip.setCustomer(trip.getCustomer());
+                oldTrip.setPackageVariation(trip.getPackageVariation());
+                oldTrip.setDepartureDate(trip.getDepartureDate());
+                oldTrip.setReturnDate(trip.getReturnDate());
+                oldTrip.setHotel(trip.getHotel());
+                oldTrip.setAdults(trip.getAdults());
+                oldTrip.setChild(trip.getChild());
+                tripRepository.save(oldTrip);
+            }
+            Variation variationWithNewFreeSeats =new Variation();
+            if(trip.getAdults()+trip.getChild()!= foundTrip.get().getAdults()+ foundTrip.get().getChild()){
+                int changeInNumberOfPassengers =(trip.getAdults()+trip.getChild())-(foundTrip.get().getAdults()+ foundTrip.get().getChild());
+                variationWithNewFreeSeats= trip.getPackageVariation();
+                if(changeInNumberOfPassengers <0){
+                    variationWithNewFreeSeats.setFreeSeats(variationWithNewFreeSeats.getFreeSeats()+ changeInNumberOfPassengers);
+                }else{
+                    variationWithNewFreeSeats.setFreeSeats(variationWithNewFreeSeats.getFreeSeats()- changeInNumberOfPassengers);
+                }
+                variationRepository.save(variationWithNewFreeSeats);
+                return new ResponseEntity<>(oldTrip,HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+
+        }catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @Override
-    public void deleteTripById(Long id) {
-        tripRepository.deleteById(id);
+    public ResponseEntity<HttpStatus> deleteTrip(Trip trip) {
+        try {
+            tripRepository.delete(trip);
+            Variation variation = new Variation();
+            variation=trip.getPackageVariation();
+            int updatedNumberOfAvailableSeats = variation.getFreeSeats()+trip.getAdults()+trip.getChild();
+            variation.setFreeSeats(updatedNumberOfAvailableSeats);
+            variationRepository.save(variation);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    @Override
+    public ResponseEntity<HttpStatus> deleteAllTrips() {
+        try{
+            tripRepository.deleteAll();
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

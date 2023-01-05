@@ -1,19 +1,19 @@
 package com.seg.service;
 
 
-import com.seg.model.User;
+import com.seg.model.Customer;
 
 import java.util.List;
 
 public interface UserService {
 
-    List<User> getAllUsers();
+    List<Customer> getAllUsers();
 
-    User saveUser(User user);
+    Customer saveUser(Customer customer);
 
-    User getUserById(Long id);
+    Customer getUserById(Long id);
 
-    User updateUser(User user);
+    Customer updateUser(Customer customer);
 
     void deleteUserById(Long id);
 }

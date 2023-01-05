@@ -1,7 +1,6 @@
 package com.seg.controller;
 
-import com.seg.model.Country;
-import com.seg.model.User;
+import com.seg.model.Customer;
 import com.seg.repository.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,30 +13,30 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
-public class UserController {
+public class CustomerController {
 
     private UserRepository userRepository;
 
     @Autowired
-    public UserController(UserRepository userRepository) {
+    public CustomerController(UserRepository userRepository) {
 
         this.userRepository = userRepository;
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getAllUsers(){
+    public ResponseEntity<List<Customer>> getAllUsers(){
         try {
-            List<User> userList = userRepository.findAll();
-            return new ResponseEntity<>(userList, HttpStatus.OK);
+            List<Customer> customerList = userRepository.findAll();
+            return new ResponseEntity<>(customerList, HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<User> getUsersById(@PathVariable long id){
+    public ResponseEntity<Customer> getUsersById(@PathVariable long id){
         try{
-            Optional<User> userById = userRepository.findById(id);
+            Optional<Customer> userById = userRepository.findById(id);
             if(userById.isPresent()){
                 return new ResponseEntity<>(userById.get(),HttpStatus.OK);
             }
@@ -48,31 +47,31 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
+    public ResponseEntity<Customer> createCustomer(@Valid @RequestBody Customer customer) {
         try {
-            User myUser = userRepository.save(new User(user.getFirstName(),
-                                                       user.getLastName(),
-                                                       user.getEmail(),
-                                                       user.getPersonType(),
-                                                       user.getPassportNumber()));
-            return new ResponseEntity<>(myUser, HttpStatus.CREATED);
+            Customer myCustomer = userRepository.save(new Customer(customer.getFirstName(),
+                                                       customer.getLastName(),
+                                                       customer.getEmail(),
+                                                       customer.getPersonType(),
+                                                       customer.getPassportNumber()));
+            return new ResponseEntity<>(myCustomer, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping("/users/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable long id,@Valid @RequestBody User newUser){
+    public ResponseEntity<Customer> updateUser(@PathVariable long id, @Valid @RequestBody Customer newCustomer){
         try{
-            Optional<User> foundUser = userRepository.findById(id);
+            Optional<Customer> foundUser = userRepository.findById(id);
             if(foundUser.isPresent()){
-                User oldUser = foundUser.get();
-                oldUser.setFirstName(newUser.getFirstName());
-                oldUser.setLastName(newUser.getLastName());
-                oldUser.setEmail(newUser.getEmail());
-                oldUser.setPersonType(newUser.getPersonType());
-                oldUser.setPassportNumber(newUser.getPassportNumber());
-                return new ResponseEntity<>(userRepository.save(oldUser),HttpStatus.OK);
+                Customer oldCustomer = foundUser.get();
+                oldCustomer.setFirstName(newCustomer.getFirstName());
+                oldCustomer.setLastName(newCustomer.getLastName());
+                oldCustomer.setEmail(newCustomer.getEmail());
+                oldCustomer.setPersonType(newCustomer.getPersonType());
+                oldCustomer.setPassportNumber(newCustomer.getPassportNumber());
+                return new ResponseEntity<>(userRepository.save(oldCustomer),HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
@@ -83,7 +82,7 @@ public class UserController {
     }
 
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<HttpStatus> deleteUserById(@PathVariable("id") long id) {
+    public ResponseEntity<HttpStatus> deleteUserById(@PathVariable long id) {
         try {
             userRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

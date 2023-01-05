@@ -31,10 +31,9 @@ public class Hotel {
     @NotBlank(message = "Can not be empty")
     @ManyToOne
     private City city;
-    // delete the following
     @NonNull
     @NotBlank(message = "Can not be empty")
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Variation> variations;
 
 }

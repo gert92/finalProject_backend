@@ -1,18 +1,23 @@
 package com.seg.service;
 
 import com.seg.model.Trip;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TripService {
 
-    List<Trip> getAllTrips();
+    ResponseEntity<List<Trip>> getAllTrips();
 
-    Trip saveTrip(Trip trip);
+    ResponseEntity<Trip> saveTrip(Trip trip);
 
-    Trip getTripById(Long id);
+    ResponseEntity<Trip> getTripById(Long id);
 
-    Trip updateTrip(Trip trip);
+    ResponseEntity<Trip> updateTrip(Long id,Trip trip);
 
-    void deleteTripById(Long id);
+    ResponseEntity<HttpStatus> deleteTrip(Trip trip);
+
+    ResponseEntity<HttpStatus> deleteAllTrips();
 }
