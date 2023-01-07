@@ -19,7 +19,7 @@ public class Country {
     @NonNull
     @NotBlank(message = "Can not be empty")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "country")
     private List<Hotel> hotels;
     @NonNull
     @NotBlank(message = "Can not be empty")

@@ -1,5 +1,6 @@
 package com.seg.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -29,6 +30,7 @@ public class Hotel {
     private String tag;
     @NonNull
     @ManyToOne
+    @JsonIgnore
     @NotNull(message = "please provide a country for this hotel")
     private Country country;
     @NonNull
