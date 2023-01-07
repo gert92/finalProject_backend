@@ -5,15 +5,14 @@ import com.seg.model.Hotel;
 import com.seg.repository.CityRepository;
 import com.seg.repository.CountryRepository;
 import com.seg.repository.HotelRepository;
+import com.seg.slugify.TagSlugifier;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api")
@@ -21,10 +20,13 @@ import java.util.Optional;
 public class HotelController {
     private HotelRepository hotelRepository;
 
+    private TagSlugifier tagSlugifier= new TagSlugifier();
+
 
     @Autowired
     public HotelController(HotelRepository hotelRepository) {
         this.hotelRepository = hotelRepository;
+
 
     }
     
@@ -64,12 +66,33 @@ public class HotelController {
     @PostMapping("/hotels")
     public ResponseEntity<Hotel> createHotel(@RequestBody @Valid Hotel hotel){
         try{
-            Hotel newHotel = hotelRepository.save(new Hotel(hotel.getName(), hotel.getDescription()
-                    ,hotel.getTag(),hotel.getCountry(),hotel.getCity()
+            StringBuilder slug = new StringBuilder(tagSlugifier.slugify(hotel.getName()));
+            List<Hotel> foundHotel = hotelRepository.findByTagContains(String.valueOf(slug));
+            if(foundHotel.size()>0){
+                if(foundHotel.size()>1){
+                    foundHotel.sort((hotel1,hotel2)-> String.CASE_INSENSITIVE_ORDER.compare(hotel2.getName(),hotel1.getName()));
+                    String lastSlug = foundHotel.get(foundHotel.size()-1).getTag();
+                    Integer increment = Integer.parseInt(lastSlug.substring(lastSlug.length()-1))+1;
+                    slug.append("-").append(increment.toString());
+
+
+                }else{
+                    slug.append("-1");
+                }
+            }
+
+
+            Hotel newHotel = hotelRepository.save(new Hotel(
+                     hotel.getName()
+                    ,hotel.getDescription()
+                    ,slug.toString()
+                    ,hotel.getCountry()
+                    ,hotel.getCity()
                     ,hotel.getImage()));
             return new ResponseEntity<>(newHotel,HttpStatus.CREATED);
 
         }catch(Exception e){
+            System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 

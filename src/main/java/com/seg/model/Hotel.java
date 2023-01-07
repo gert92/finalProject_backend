@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Setter
 @Getter
+@ToString
 
 public class Hotel {
     @Id
@@ -26,7 +27,6 @@ public class Hotel {
     @NotBlank(message = "Can not be empty")
     private String description;
     @NonNull
-    @NotBlank(message = "Can not be empty")
     private String tag;
     @NonNull
     @JsonIgnoreProperties(value = {"hotels"}, allowSetters = true)
