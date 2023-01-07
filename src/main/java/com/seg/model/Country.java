@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "countries")
 @NoArgsConstructor
@@ -17,4 +19,10 @@ public class Country {
     @NonNull
     @NotBlank(message = "Can not be empty")
     private String name;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Hotel> hotels;
+
+    private int counter;
+
+    private String image;
 }

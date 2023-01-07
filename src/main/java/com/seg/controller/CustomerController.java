@@ -1,7 +1,7 @@
 package com.seg.controller;
 
 import com.seg.model.Customer;
-import com.seg.repository.UserRepository;
+import com.seg.repository.CustomerRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,18 +15,18 @@ import java.util.Optional;
 @RequestMapping("/api")
 public class CustomerController {
 
-    private UserRepository userRepository;
+    private CustomerRepository customerRepository;
 
     @Autowired
-    public CustomerController(UserRepository userRepository) {
+    public CustomerController(CustomerRepository customerRepository) {
 
-        this.userRepository = userRepository;
+        this.customerRepository = customerRepository;
     }
 
     @GetMapping("/users")
     public ResponseEntity<List<Customer>> getAllUsers(){
         try {
-            List<Customer> customerList = userRepository.findAll();
+            List<Customer> customerList = customerRepository.findAll();
             return new ResponseEntity<>(customerList, HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -36,7 +36,7 @@ public class CustomerController {
     @GetMapping("/users/{id}")
     public ResponseEntity<Customer> getUsersById(@PathVariable long id){
         try{
-            Optional<Customer> userById = userRepository.findById(id);
+            Optional<Customer> userById = customerRepository.findById(id);
             if(userById.isPresent()){
                 return new ResponseEntity<>(userById.get(),HttpStatus.OK);
             }
@@ -49,7 +49,7 @@ public class CustomerController {
     @PostMapping("/users")
     public ResponseEntity<Customer> createCustomer(@Valid @RequestBody Customer customer) {
         try {
-            Customer myCustomer = userRepository.save(new Customer(customer.getFirstName(),
+            Customer myCustomer = customerRepository.save(new Customer(customer.getFirstName(),
                                                        customer.getLastName(),
                                                        customer.getEmail(),
                                                        customer.getPersonType(),
@@ -63,7 +63,7 @@ public class CustomerController {
     @PutMapping("/users/{id}")
     public ResponseEntity<Customer> updateUser(@PathVariable long id, @Valid @RequestBody Customer newCustomer){
         try{
-            Optional<Customer> foundUser = userRepository.findById(id);
+            Optional<Customer> foundUser = customerRepository.findById(id);
             if(foundUser.isPresent()){
                 Customer oldCustomer = foundUser.get();
                 oldCustomer.setFirstName(newCustomer.getFirstName());
@@ -71,7 +71,7 @@ public class CustomerController {
                 oldCustomer.setEmail(newCustomer.getEmail());
                 oldCustomer.setPersonType(newCustomer.getPersonType());
                 oldCustomer.setPassportNumber(newCustomer.getPassportNumber());
-                return new ResponseEntity<>(userRepository.save(oldCustomer),HttpStatus.OK);
+                return new ResponseEntity<>(customerRepository.save(oldCustomer),HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
@@ -84,7 +84,7 @@ public class CustomerController {
     @DeleteMapping("/users/{id}")
     public ResponseEntity<HttpStatus> deleteUserById(@PathVariable long id) {
         try {
-            userRepository.deleteById(id);
+            customerRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -94,7 +94,7 @@ public class CustomerController {
     @DeleteMapping("/users")
     public ResponseEntity<HttpStatus> deleteAllUsers() {
         try {
-            userRepository.deleteAll();
+            customerRepository.deleteAll();
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

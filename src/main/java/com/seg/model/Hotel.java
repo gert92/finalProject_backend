@@ -36,4 +36,8 @@ public class Hotel {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Variation> variations;
 
+    private int counter;
+
+    private String image;
+
 }

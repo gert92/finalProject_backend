@@ -22,7 +22,7 @@ public class Trip {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @NotBlank(message = "Line can't be empty")
-    private User user;
+    private Customer customer;
 
     @NonNull
     @OneToOne(cascade = CascadeType.ALL)
@@ -50,7 +50,7 @@ public class Trip {
 
     @NonNull
     @NotBlank(message = "Please add number of children")
-    private int childs;
+    private int children;
 
 
 }

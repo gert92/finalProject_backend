@@ -46,10 +46,10 @@ public class TripServiceImpl implements TripService {
                     trip.getReturnDate(),
                     trip.getHotel(),
                     trip.getAdults(),
-                    trip.getChild()));
+                    trip.getChildren()));
 
             myTrip.getPackageVariation()
-                    .setFreeSeats(myTrip.getPackageVariation().getFreeSeats()-myTrip.getAdults()-myTrip.getChild());
+                    .setFreeSeats(myTrip.getPackageVariation().getFreeSeats()-myTrip.getAdults()-myTrip.getChildren());
             variationRepository.save(myTrip.getPackageVariation());
             return new ResponseEntity<>(trip,HttpStatus.CREATED);
         }catch(Exception e){
@@ -90,12 +90,12 @@ public class TripServiceImpl implements TripService {
                 oldTrip.setReturnDate(trip.getReturnDate());
                 oldTrip.setHotel(trip.getHotel());
                 oldTrip.setAdults(trip.getAdults());
-                oldTrip.setChild(trip.getChild());
+                oldTrip.setChildren(trip.getChildren());
                 tripRepository.save(oldTrip);
             }
             Variation variationWithNewFreeSeats =new Variation();
-            if(trip.getAdults()+trip.getChild()!= foundTrip.get().getAdults()+ foundTrip.get().getChild()){
-                int changeInNumberOfPassengers =(trip.getAdults()+trip.getChild())-(foundTrip.get().getAdults()+ foundTrip.get().getChild());
+            if(trip.getAdults()+trip.getChildren()!= foundTrip.get().getAdults()+ foundTrip.get().getChildren()){
+                int changeInNumberOfPassengers =(trip.getAdults()+trip.getChildren())-(foundTrip.get().getAdults()+ foundTrip.get().getChildren());
                 variationWithNewFreeSeats= trip.getPackageVariation();
                 if(changeInNumberOfPassengers <0){
                     variationWithNewFreeSeats.setFreeSeats(variationWithNewFreeSeats.getFreeSeats()+ changeInNumberOfPassengers);
@@ -119,7 +119,7 @@ public class TripServiceImpl implements TripService {
             tripRepository.delete(trip);
             Variation variation = new Variation();
             variation=trip.getPackageVariation();
-            int updatedNumberOfAvailableSeats = variation.getFreeSeats()+trip.getAdults()+trip.getChild();
+            int updatedNumberOfAvailableSeats = variation.getFreeSeats()+trip.getAdults()+trip.getChildren();
             variation.setFreeSeats(updatedNumberOfAvailableSeats);
             variationRepository.save(variation);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -130,7 +130,7 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
-    public ResponseEntity<HttpStatus> deleteAllTrips() {
+    public ResponseEntity<HttpStatus> deleteTrips() {
         try{
             tripRepository.deleteAll();
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
