@@ -22,8 +22,10 @@ public class Country {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Hotel> hotels;
 
+    private String description;
+
     private int counter;
 
     private String image;
-    //this is changed
+
 }
