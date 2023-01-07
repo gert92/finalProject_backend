@@ -1,9 +1,6 @@
 package com.seg.controller;
 
-import com.seg.model.Country;
 import com.seg.model.Hotel;
-import com.seg.repository.CityRepository;
-import com.seg.repository.CountryRepository;
 import com.seg.repository.HotelRepository;
 import com.seg.slugify.TagSlugifier;
 import jakarta.validation.Valid;
@@ -49,11 +46,13 @@ public class HotelController {
         
     }
     
-    @GetMapping("/hotel/{id}")
-    public ResponseEntity<Hotel> findHotelById(@PathVariable("id")Long id){
+    @GetMapping("/hotels/{slug}")
+    public ResponseEntity<Hotel> findHotelById(@PathVariable("slug")String slug){
+        System.out.println(slug);
         try{
-            Optional<Hotel> foundHotel = hotelRepository.findById(id);
+            Optional<Hotel> foundHotel = hotelRepository.findHotelByTag(slug);
             if(foundHotel.isPresent()){
+
                 return new ResponseEntity<>(foundHotel.get(),HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

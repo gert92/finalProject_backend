@@ -11,5 +11,6 @@ import java.util.Optional;
 public interface HotelRepository extends JpaRepository<Hotel,Long> {
     public List<Hotel> findByName(String name);
 
+    public Optional<Hotel> findHotelByTag(String tag);
     public List<Hotel> findByTagContains (String tag);
 }
