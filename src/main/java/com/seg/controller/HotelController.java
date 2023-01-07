@@ -1,6 +1,9 @@
 package com.seg.controller;
 
+import com.seg.model.Country;
 import com.seg.model.Hotel;
+import com.seg.repository.CityRepository;
+import com.seg.repository.CountryRepository;
 import com.seg.repository.HotelRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +17,15 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin("http://localhost:3000")
 public class HotelController {
     private HotelRepository hotelRepository;
+
 
     @Autowired
     public HotelController(HotelRepository hotelRepository) {
         this.hotelRepository = hotelRepository;
+
     }
     
     @GetMapping("hotels")
@@ -58,7 +64,7 @@ public class HotelController {
     @PostMapping("/hotels")
     public ResponseEntity<Hotel> createHotel(@RequestBody @Valid Hotel hotel){
         try{
-            Hotel newHotel = hotelRepository.save(new Hotel(hotel.getName()
+            Hotel newHotel = hotelRepository.save(new Hotel(hotel.getName(), hotel.getDescription()
                     ,hotel.getTag(),hotel.getCountry(),hotel.getCity()
                     ,hotel.getImage()));
             return new ResponseEntity<>(newHotel,HttpStatus.CREATED);
