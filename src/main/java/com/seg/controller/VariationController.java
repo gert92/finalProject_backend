@@ -23,7 +23,7 @@ public class VariationController {
         this.variationRepository=variationRepository;
     }
 
-    @PostMapping("packages")
+    @PostMapping("/variations")
     public ResponseEntity<Variation> createVariation (@RequestBody @Valid Variation variation){
         try{
             Variation newVariation = variationRepository.save(new Variation(
@@ -39,7 +39,7 @@ public class VariationController {
         }
     }
 
-    @GetMapping("/packages")
+    @GetMapping("/variations")
     public ResponseEntity<List<Variation>> getAllVariations(){
         try{
             List<Variation> allVariations = new ArrayList<>();
@@ -50,7 +50,7 @@ public class VariationController {
         }
     }
 
-    @GetMapping("/Packages/{price}")
+    @GetMapping("/variations/{price}")
     public ResponseEntity<List<Variation>> getAllVariationsWithPriceLessThan(@PathVariable double price){
         try{
             List<Variation> allVariationsLessThanPrice=variationRepository.findByPriceLessThan(price);
@@ -60,7 +60,7 @@ public class VariationController {
         }
     }
 
-    @GetMapping("/Packages/{date}")
+    @GetMapping("/variations/{date}")
     public ResponseEntity<List<Variation>> getAllVariationsAfterDate(@PathVariable Date date){
         try{
             List<Variation> allVariationsAfterDate=variationRepository.findByStartDateIsAfter(date);
@@ -71,7 +71,7 @@ public class VariationController {
     }
 
 
-    @PutMapping("/packages/{id}")
+    @PutMapping("/variations/{id}")
     public ResponseEntity<Variation> updateVariation(@PathVariable long id,@RequestBody Variation variation){
         try{
             Optional<Variation> foundVariation = variationRepository.findById(id);
@@ -91,7 +91,7 @@ public class VariationController {
         }
     }
 
-    @DeleteMapping("/packages")
+    @DeleteMapping("/variations")
     public ResponseEntity<HttpStatus> deleteAllVariations(){
         try{
             variationRepository.deleteAll();
@@ -101,7 +101,7 @@ public class VariationController {
         }
     }
 
-    @DeleteMapping("/packages/{id}")
+    @DeleteMapping("/variations/{id}")
     public ResponseEntity<HttpStatus> deleteVariationById(@PathVariable long id){
         try{
             variationRepository.deleteById(id);

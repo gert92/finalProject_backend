@@ -24,7 +24,7 @@ public class Variation {
     @NotBlank(message = "Can not be empty")
     private int numberOfNights;
     @NonNull
-    @NotBlank(message = "Can not be empty")
+    @NotNull(message = "please choose meal plan type")
     @Enumerated(EnumType.STRING)
     private MealPlans plan;
     @ManyToOne
