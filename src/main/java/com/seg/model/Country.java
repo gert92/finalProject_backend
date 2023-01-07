@@ -24,7 +24,6 @@ public class Country {
     @NonNull
     @NotBlank(message = "Can not be empty")
     private String description;
-
     private int counter=0;
     @NonNull
     @NotBlank(message = "Can not be empty")

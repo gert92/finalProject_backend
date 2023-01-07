@@ -1,6 +1,6 @@
 package com.seg.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -29,8 +29,8 @@ public class Hotel {
     @NotBlank(message = "Can not be empty")
     private String tag;
     @NonNull
+    @JsonIgnoreProperties(value = {"hotels"}, allowSetters = true)
     @ManyToOne
-    @JsonIgnore
     @NotNull(message = "please provide a country for this hotel")
     private Country country;
     @NonNull
