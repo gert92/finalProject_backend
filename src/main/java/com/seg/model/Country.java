@@ -21,11 +21,11 @@ public class Country {
     private String name;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Hotel> hotels;
-
+    @NonNull
     private String description;
 
-    private int counter;
-
+    private int counter=0;
+    @NonNull
     private String image;
 
 }

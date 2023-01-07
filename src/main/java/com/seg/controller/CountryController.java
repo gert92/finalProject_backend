@@ -23,7 +23,8 @@ public class CountryController {
     @PostMapping("/countries")
     public ResponseEntity<Country> createCountry (@RequestBody Country country){
         try{
-            Country country1 = countryRepository.save(new Country(country.getName()));
+            Country country1 = countryRepository.save(new Country(country.getName()
+            ,country.getDescription(),country.getImage()));
             return new ResponseEntity<>(country1, HttpStatus.CREATED);
         }catch(Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -61,6 +62,9 @@ public class CountryController {
             if(country1.isPresent()){
                 Country foundCountry = country1.get();
                 foundCountry.setName(country.getName());
+                foundCountry.setDescription(country.getDescription());
+                foundCountry.setHotels(country.getHotels());
+                foundCountry.setCounter(country.getCounter());
                 return new ResponseEntity<>(countryRepository.save(foundCountry),HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

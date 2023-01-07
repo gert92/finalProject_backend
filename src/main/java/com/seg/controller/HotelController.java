@@ -62,7 +62,7 @@ public class HotelController {
         try{
             Hotel newHotel = hotelRepository.save(new Hotel(hotel.getName()
                     ,hotel.getTag(),hotel.getCountry(),hotel.getCity()
-                    ,hotel.getCounter(),hotel.getImage()));
+                    ,hotel.getImage()));
             return new ResponseEntity<>(newHotel,HttpStatus.CREATED);
 
         }catch(Exception e){
@@ -79,9 +79,12 @@ public class HotelController {
             if (foundHotel.isPresent()){
                  oldHotel =foundHotel.get();
                 oldHotel.setName(hotel.getName());
+                oldHotel.setTag(hotel.getTag());
                 oldHotel.setCountry(hotel.getCountry());
                 oldHotel.setCity(hotel.getCity());
                 oldHotel.setVariations(hotel.getVariations());
+                oldHotel.setCounter(hotel.getCounter());
+                oldHotel.setImage(hotel.getImage());
 
             }
             return new ResponseEntity<>(hotelRepository.save(oldHotel),HttpStatus.OK);

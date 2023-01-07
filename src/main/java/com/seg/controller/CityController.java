@@ -3,6 +3,7 @@ package com.seg.controller;
 import com.seg.model.City;
 import com.seg.model.Country;
 import com.seg.repository.CityRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class CityController {
     }
 
     @PostMapping("/cities")
-    public ResponseEntity<City> createCity (@RequestBody City city){
+    public ResponseEntity<City> createCity (@RequestBody @Valid City city){
         try{
             City city1 = cityRepository.save(new City(city.getName()));
             return new ResponseEntity<>(city1, HttpStatus.CREATED);

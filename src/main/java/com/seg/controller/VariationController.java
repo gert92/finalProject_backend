@@ -30,6 +30,7 @@ public class VariationController {
                      variation.getStartDate()
                     ,variation.getNumberOfNights()
                     ,variation.getPlan()
+                    ,variation.getHotel()
                     ,variation.getPrice()
                     ,variation.getFreeSeats()));
             return new ResponseEntity<>(newVariation,HttpStatus.OK);

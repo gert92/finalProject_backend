@@ -2,6 +2,7 @@ package com.seg.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.List;
@@ -24,18 +25,19 @@ public class Hotel {
     @NotBlank(message = "Can not be empty")
     private String tag;
     @NonNull
-    @NotBlank(message = "Can not be empty")
     @ManyToOne
+    @NotNull
     private Country country;
     @NonNull
-    @NotBlank(message = "Can not be empty")
     @ManyToOne
+    @NotNull
     private City city;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Variation> variations;
+
+    private int counter =0;
     @NonNull
-    private int counter;
-    @NonNull
+    @NotBlank(message = "please provide image URL")
     private String image;
     //this is changed
 

@@ -3,6 +3,7 @@ package com.seg.model;
 import com.seg.constants.MealPlans;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.Date;
@@ -17,7 +18,7 @@ public class Variation {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @NonNull
-    @NotBlank(message = "Can not be empty")
+    @NotNull(message = "please choose a date")
     private Date startDate;
     @NonNull
     @NotBlank(message = "Can not be empty")
@@ -27,6 +28,8 @@ public class Variation {
     @Enumerated(EnumType.STRING)
     private MealPlans plan;
     @ManyToOne
+    @NonNull
+    @NotNull(message = "can't be empty")
     private Hotel hotel;
     @NonNull
     @NotBlank(message = "Can not be empty")
