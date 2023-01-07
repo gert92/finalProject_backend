@@ -23,6 +23,9 @@ public class Hotel {
     private String name;
     @NonNull
     @NotBlank(message = "Can not be empty")
+    private String description;
+    @NonNull
+    @NotBlank(message = "Can not be empty")
     private String tag;
     @NonNull
     @ManyToOne
