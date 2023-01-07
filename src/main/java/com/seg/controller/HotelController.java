@@ -23,14 +23,12 @@ public class HotelController {
     }
     
     @GetMapping("hotels")
-    public ResponseEntity<List<Hotel>> getAllHotels(@RequestParam String hotelName){
+    public ResponseEntity<List<Hotel>> getAllHotels(){
         try{
             List<Hotel> allHotels = new ArrayList<>();
-            if(hotelName==null){
+
                 hotelRepository.findAll().forEach(h->allHotels.add(h));
-            }else{
-                hotelRepository.findByName(hotelName).forEach(h->allHotels.add(h));
-            }
+
             if(allHotels.isEmpty()){
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }

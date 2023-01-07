@@ -64,7 +64,7 @@ public class CountryController {
                 foundCountry.setName(country.getName());
                 foundCountry.setDescription(country.getDescription());
                 foundCountry.setHotels(country.getHotels());
-                foundCountry.setCounter(country.getCounter());
+                foundCountry.setCounter(country1.get().getCounter());
                 return new ResponseEntity<>(countryRepository.save(foundCountry),HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
