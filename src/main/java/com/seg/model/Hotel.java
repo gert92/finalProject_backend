@@ -35,7 +35,7 @@ public class Hotel {
     @ManyToOne
     @NotNull(message = "please provide a city for this hotel")
     private City city;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hotel")
     private List<Variation> variations;
 
     private int counter =0;

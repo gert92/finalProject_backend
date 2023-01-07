@@ -1,5 +1,6 @@
 package com.seg.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.seg.constants.MealPlans;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -30,6 +31,7 @@ public class Variation {
     @ManyToOne
     @NonNull
     @NotNull(message = "can't be empty")
+    @JsonIgnore
     private Hotel hotel;
     @NonNull
     @NotNull(message = "please enter price for this variation")
