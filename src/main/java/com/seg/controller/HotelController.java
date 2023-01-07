@@ -83,6 +83,7 @@ public class HotelController {
             if (foundHotel.isPresent()){
                  oldHotel =foundHotel.get();
                 oldHotel.setName(hotel.getName());
+                oldHotel.setDescription(hotel.getDescription());
                 oldHotel.setTag(hotel.getTag());
                 oldHotel.setCountry(hotel.getCountry());
                 oldHotel.setCity(hotel.getCity());
