@@ -22,11 +22,10 @@ public class Trip {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @NotBlank(message = "Line can't be empty")
-    private Customer customer;
+    private User user;
 
     @NonNull
-    //relationship type
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "variation_id", referencedColumnName = "id")
     @NotBlank(message = "Line can't be empty")
     private Variation packageVariation;
@@ -40,8 +39,7 @@ public class Trip {
     private Date returnDate;
 
     @NonNull
-    //the cascade type.All doesn't seem right here as if we delete a trip the hotel will be deleted too
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "hotel_id", referencedColumnName = "id")
     @NotBlank(message = "Please choose a Hotel")
     private Hotel hotel;
@@ -52,7 +50,7 @@ public class Trip {
 
     @NonNull
     @NotBlank(message = "Please add number of children")
-    private int child;
+    private int childs;
 
 
 }
