@@ -22,10 +22,12 @@ public class Country {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Hotel> hotels;
     @NonNull
+    @NotBlank(message = "Can not be empty")
     private String description;
 
     private int counter=0;
     @NonNull
+    @NotBlank(message = "Can not be empty")
     private String image;
 
 }

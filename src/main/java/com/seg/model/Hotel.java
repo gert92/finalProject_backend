@@ -29,11 +29,11 @@ public class Hotel {
     private String tag;
     @NonNull
     @ManyToOne
-    @NotNull
+    @NotNull(message = "please provide a country for this hotel")
     private Country country;
     @NonNull
     @ManyToOne
-    @NotNull
+    @NotNull(message = "please provide a city for this hotel")
     private City city;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Variation> variations;
@@ -42,6 +42,6 @@ public class Hotel {
     @NonNull
     @NotBlank(message = "please provide image URL")
     private String image;
-    //this is changed
+
 
 }

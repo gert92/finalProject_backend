@@ -4,6 +4,7 @@ import com.seg.constants.PersonType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
@@ -33,7 +34,7 @@ public class Customer {
 
     @NonNull
     @Enumerated(EnumType.STRING)
-    @NotBlank(message = "Person type can't be empty")
+    @NotNull(message = "please provide person type")
     private PersonType personType;
 
     @NonNull

@@ -12,7 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Setter
 @Getter
-@Table(name = "packages")
+@Table(name = "variations")
 public class Variation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,7 +21,7 @@ public class Variation {
     @NotNull(message = "please choose a date")
     private Date startDate;
     @NonNull
-    @NotBlank(message = "Can not be empty")
+    @NotNull(message = "please enter number of nights")
     private int numberOfNights;
     @NonNull
     @NotNull(message = "please choose meal plan type")
@@ -32,9 +32,9 @@ public class Variation {
     @NotNull(message = "can't be empty")
     private Hotel hotel;
     @NonNull
-    @NotBlank(message = "Can not be empty")
+    @NotNull(message = "please enter price for this variation")
     private Double price;
-    @NotBlank(message = "Can not be empty")
+    @NotNull(message = "please enter available number of seats")
     @NonNull
     private int freeSeats;
 
