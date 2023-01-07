@@ -2,6 +2,7 @@ package com.seg.controller;
 
 import com.seg.model.Variation;
 import com.seg.repository.VariationRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class VariationController {
     }
 
     @PostMapping("packages")
-    public ResponseEntity<Variation> createVariation (@RequestBody Variation variation){
+    public ResponseEntity<Variation> createVariation (@RequestBody @Valid Variation variation){
         try{
             Variation newVariation = variationRepository.save(new Variation(
                      variation.getStartDate()

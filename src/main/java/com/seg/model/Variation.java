@@ -26,6 +26,8 @@ public class Variation {
     @NotBlank(message = "Can not be empty")
     @Enumerated(EnumType.STRING)
     private MealPlans plan;
+    @ManyToOne
+    private Hotel hotel;
     @NonNull
     @NotBlank(message = "Can not be empty")
     private Double price;

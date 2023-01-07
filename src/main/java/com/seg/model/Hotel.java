@@ -31,13 +31,11 @@ public class Hotel {
     @NotBlank(message = "Can not be empty")
     @ManyToOne
     private City city;
-    @NonNull
-    @NotBlank(message = "Can not be empty")
     @OneToMany(cascade = CascadeType.ALL)
     private List<Variation> variations;
-
+    @NonNull
     private int counter;
-
+    @NonNull
     private String image;
     //this is changed
 
