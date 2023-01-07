@@ -25,4 +25,5 @@ public class Country {
     private int counter;
 
     private String image;
+    //this is changed
 }

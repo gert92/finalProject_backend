@@ -39,5 +39,6 @@ public class Hotel {
     private int counter;
 
     private String image;
+    //this is changed
 
 }
