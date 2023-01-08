@@ -75,6 +75,7 @@ public class HotelController {
                 hotel.getName()
                 , hotel.getDescription()
                 , slug.toString()
+                , hotel.getNovatoursKey()
                 , hotel.getCountry()
                 , hotel.getCity()
                 , hotel.getImage()));

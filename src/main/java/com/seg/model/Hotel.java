@@ -25,9 +25,12 @@ public class Hotel implements Slugify {
     private String name;
     @NonNull
     @NotBlank(message = "Can not be empty")
+    @Column(columnDefinition = "text")
     private String description;
     @NonNull
     private String tag;
+    @NonNull
+    private String novatoursKey;
     @NonNull
     @JsonIgnoreProperties(value = {"hotels"}, allowSetters = true)
     @ManyToOne
