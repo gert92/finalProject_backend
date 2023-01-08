@@ -26,7 +26,7 @@ public class CountryController {
 
     @PostMapping("/countries")
     public ResponseEntity<Country> createCountry (@RequestBody Country country){
-        try{
+
             StringBuilder slug = new StringBuilder(tagSlugifier.slugify(country.getName()));
             List<Country> foundCountry = countryRepository.findByTagContains(String.valueOf(slug));
             if(foundCountry.size()>0){
@@ -37,38 +37,28 @@ public class CountryController {
                     slug.toString()
             ,country.getDescription(),country.getImage()));
             return new ResponseEntity<>(country1, HttpStatus.CREATED);
-        }catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
 
     }
 
     @GetMapping("/countries")
     public ResponseEntity<List<Country>> getAllCountries (){
-        try {
+
             List<Country> allCountries = countryRepository.findAll();
             return new ResponseEntity<>(allCountries,HttpStatus.OK);
-        }catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @GetMapping("/countries/{id}")
     public ResponseEntity<Country> findCountryById(@PathVariable long id){
-        try{
+
             Optional<Country> foundCountry = countryRepository.findById(id);
             if(foundCountry.isPresent()){
                 return new ResponseEntity<>(foundCountry.get(),HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @PutMapping("/countries/{id}")
     public ResponseEntity<Country> updateCountry (@PathVariable long id, @RequestBody Country country){
-        try{
             Optional<Country> country1 = countryRepository.findById(id);
             if(country1.isPresent()){
                 Country foundCountry = country1.get();
@@ -79,30 +69,19 @@ public class CountryController {
                 return new ResponseEntity<>(countryRepository.save(foundCountry),HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-
-        }catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @DeleteMapping("/countries/{id}")
     public ResponseEntity<HttpStatus> deleteCountryById(@PathVariable Long id){
-        try{
+
            countryRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @DeleteMapping("/countries")
     public ResponseEntity<HttpStatus> deleteAllCountries(){
-        try{
+
             countryRepository.deleteAll();
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 }

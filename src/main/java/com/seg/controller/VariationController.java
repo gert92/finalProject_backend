@@ -25,7 +25,7 @@ public class VariationController {
 
     @PostMapping("/variations")
     public ResponseEntity<Variation> createVariation (@RequestBody @Valid Variation variation){
-        try{
+
             Variation newVariation = variationRepository.save(new Variation(
                      variation.getStartDate()
                     ,variation.getNumberOfNights()
@@ -34,46 +34,34 @@ public class VariationController {
                     ,variation.getPrice()
                     ,variation.getFreeSeats()));
             return new ResponseEntity<>(newVariation,HttpStatus.OK);
-        }catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @GetMapping("/variations")
     public ResponseEntity<List<Variation>> getAllVariations(){
-        try{
+
             List<Variation> allVariations = new ArrayList<>();
             allVariations=variationRepository.findAll();
             return new ResponseEntity<>(allVariations,HttpStatus.OK);
-        }catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @GetMapping("/variations/{price}")
     public ResponseEntity<List<Variation>> getAllVariationsWithPriceLessThan(@PathVariable double price){
-        try{
+
             List<Variation> allVariationsLessThanPrice=variationRepository.findByPriceLessThan(price);
             return new ResponseEntity<>(allVariationsLessThanPrice,HttpStatus.OK);
-        }catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @GetMapping("/variations/{date}")
     public ResponseEntity<List<Variation>> getAllVariationsAfterDate(@PathVariable Date date){
-        try{
+
             List<Variation> allVariationsAfterDate=variationRepository.findByStartDateIsAfter(date);
             return new ResponseEntity<>(allVariationsAfterDate,HttpStatus.OK);
-        }catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
 
     @PutMapping("/variations/{id}")
     public ResponseEntity<Variation> updateVariation(@PathVariable long id,@RequestBody Variation variation){
-        try{
+
             Optional<Variation> foundVariation = variationRepository.findById(id);
             if(foundVariation.isPresent()){
                 Variation newVariation = foundVariation.get();
@@ -85,29 +73,18 @@ public class VariationController {
                 return new ResponseEntity<>(variationRepository.save(newVariation),HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-        }catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @DeleteMapping("/variations")
     public ResponseEntity<HttpStatus> deleteAllVariations(){
-        try{
+
             variationRepository.deleteAll();
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @DeleteMapping("/variations/{id}")
     public ResponseEntity<HttpStatus> deleteVariationById(@PathVariable long id){
-        try{
             variationRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 }

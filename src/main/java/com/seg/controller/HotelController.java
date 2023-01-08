@@ -28,7 +28,7 @@ public class HotelController {
 
     @GetMapping("hotels")
     public ResponseEntity<List<Hotel>> getAllHotels() {
-        try {
+
             List<Hotel> allHotels = new ArrayList<>();
 
             hotelRepository.findAll().forEach(h -> allHotels.add(h));
@@ -38,27 +38,18 @@ public class HotelController {
             }
 
             return new ResponseEntity<>(allHotels, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
 
     }
 
     @GetMapping("/hotels/{slug}")
     public ResponseEntity<Hotel> findHotelById(@PathVariable("slug") String slug) {
-        System.out.println(slug);
-        try {
+
             Optional<Hotel> foundHotel = hotelRepository.findHotelByTag(slug);
             if (foundHotel.isPresent()) {
 
                 return new ResponseEntity<>(foundHotel.get(), HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
     }
 
     @PostMapping("/hotels")
@@ -86,7 +77,7 @@ public class HotelController {
 
     @PutMapping("/hotels/{id}")
     public ResponseEntity<Hotel> updateHotel(@RequestBody Hotel hotel, @PathVariable Long id) {
-        try {
+
             Optional<Hotel> foundHotel = hotelRepository.findById(id);
             Hotel oldHotel = new Hotel();
             if (foundHotel.isPresent()) {
@@ -102,31 +93,19 @@ public class HotelController {
 
             }
             return new ResponseEntity<>(hotelRepository.save(oldHotel), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
 
     @DeleteMapping("/hotels/{id}")
     public ResponseEntity<HttpStatus> deleteHotelById(@PathVariable Long id) {
-        try {
             hotelRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @DeleteMapping("/hotels/")
     public ResponseEntity<HttpStatus> deleteAllHotels() {
-        try {
+
             hotelRepository.deleteAll();
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
-
-
 }

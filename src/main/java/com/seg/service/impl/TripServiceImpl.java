@@ -34,17 +34,13 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public ResponseEntity<List<Trip>> getAllTrips() {
-        try {
-            return  new ResponseEntity<>(tripRepository.findAll(),HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
 
+            return  new ResponseEntity<>(tripRepository.findAll(),HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<Trip> saveTrip(Trip trip) {
-        try{
+
             Trip myTrip = tripRepository.save(new Trip(
                     trip.getCustomer(),
                     trip.getPackageVariation(),
@@ -65,33 +61,21 @@ public class TripServiceImpl implements TripService {
             countryWithUpdatedCounter.setCounter(countryWithUpdatedCounter.getCounter()+1);
 
             return new ResponseEntity<>(trip,HttpStatus.CREATED);
-        }catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-
-
     }
 
     @Override
     public ResponseEntity<Trip> getTripById(Long id) {
-        try{
+
             Optional<Trip> foundTrip =  tripRepository.findById(id);
             if(foundTrip.isPresent()){
                 return new ResponseEntity<>(foundTrip.get(),HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-        }catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-
     }
 
     @Override
     public ResponseEntity<Trip> updateTrip(Long id,Trip trip) {
-        try{
+
             Optional<Trip> foundTrip = tripRepository.findById(id);
 
             Trip oldTrip= new Trip();
@@ -119,16 +103,11 @@ public class TripServiceImpl implements TripService {
                 return new ResponseEntity<>(oldTrip,HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-
-        }catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @Override
     public ResponseEntity<HttpStatus> deleteTrip(Trip trip) {
-        try {
+
             tripRepository.delete(trip);
             Variation variation = new Variation();
             variation=trip.getPackageVariation();
@@ -143,19 +122,12 @@ public class TripServiceImpl implements TripService {
             countryWithUpdatedCounter.setCounter(countryWithUpdatedCounter.getCounter()-1);
 
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
 
     }
 
     @Override
     public ResponseEntity<HttpStatus> deleteTrips() {
-        try{
             tripRepository.deleteAll();
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 }

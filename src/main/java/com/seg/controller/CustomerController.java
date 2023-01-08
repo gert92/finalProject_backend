@@ -24,44 +24,35 @@ public class CustomerController {
 
     @GetMapping("/users")
     public ResponseEntity<List<Customer>> getAllUsers(){
-        try {
+
             List<Customer> customerList = customerRepository.findAll();
             return new ResponseEntity<>(customerList, HttpStatus.OK);
-        }catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @GetMapping("/users/{id}")
     public ResponseEntity<Customer> getUsersById(@PathVariable long id){
-        try{
+
             Optional<Customer> userById = customerRepository.findById(id);
             if(userById.isPresent()){
                 return new ResponseEntity<>(userById.get(),HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @PostMapping("/users")
     public ResponseEntity<Customer> createCustomer(@Valid @RequestBody Customer customer) {
-        try {
+
             Customer myCustomer = customerRepository.save(new Customer(customer.getFirstName(),
                                                        customer.getLastName(),
                                                        customer.getEmail(),
                                                        customer.getPersonType(),
                                                        customer.getPassportNumber()));
             return new ResponseEntity<>(myCustomer, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @PutMapping("/users/{id}")
     public ResponseEntity<Customer> updateUser(@PathVariable long id, @Valid @RequestBody Customer newCustomer){
-        try{
+
             Optional<Customer> foundUser = customerRepository.findById(id);
             if(foundUser.isPresent()){
                 Customer oldCustomer = foundUser.get();
@@ -74,30 +65,20 @@ public class CustomerController {
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-
-        }catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @DeleteMapping("/users/{id}")
     public ResponseEntity<HttpStatus> deleteUserById(@PathVariable long id) {
-        try {
+
             customerRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @DeleteMapping("/users")
     public ResponseEntity<HttpStatus> deleteAllUsers() {
-        try {
+
             customerRepository.deleteAll();
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 }
 
