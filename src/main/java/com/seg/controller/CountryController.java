@@ -1,7 +1,9 @@
 package com.seg.controller;
 
 import com.seg.model.Country;
+import com.seg.model.Hotel;
 import com.seg.repository.CountryRepository;
+import com.seg.slugify.TagSlugifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +14,11 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin("http://localhost:3000")
 public class CountryController {
     private CountryRepository countryRepository;
+
+    private TagSlugifier tagSlugifier= new TagSlugifier();
 
     @Autowired
     public CountryController(CountryRepository countryRepository) {
@@ -23,7 +28,14 @@ public class CountryController {
     @PostMapping("/countries")
     public ResponseEntity<Country> createCountry (@RequestBody Country country){
         try{
-            Country country1 = countryRepository.save(new Country(country.getName()
+            StringBuilder slug = new StringBuilder(tagSlugifier.slugify(country.getName()));
+            List<Country> foundCountry = countryRepository.findByTagContains(String.valueOf(slug));
+            if(foundCountry.size()>0){
+                slug = tagSlugifier.slugify(foundCountry, slug);
+            }
+
+            Country country1 = countryRepository.save(new Country(country.getName(),
+                    slug.toString()
             ,country.getDescription(),country.getImage()));
             return new ResponseEntity<>(country1, HttpStatus.CREATED);
         }catch(Exception e){

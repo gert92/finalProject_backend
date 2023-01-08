@@ -16,7 +16,7 @@ import java.util.List;
 @Getter
 @ToString
 
-public class Hotel {
+public class Hotel implements Slugify {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -47,3 +47,4 @@ public class Hotel {
 
 
 }
+

@@ -12,13 +12,15 @@ import java.util.List;
 @RequiredArgsConstructor
 @Setter
 @Getter
-public class Country {
+public class Country implements Slugify {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @NonNull
     @NotBlank(message = "Can not be empty")
     private String name;
+    @NonNull
+    private String tag;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "country")
     private List<Hotel> hotels;
     @NonNull

@@ -68,16 +68,7 @@ public class HotelController {
             StringBuilder slug = new StringBuilder(tagSlugifier.slugify(hotel.getName()));
             List<Hotel> foundHotel = hotelRepository.findByTagContains(String.valueOf(slug));
             if(foundHotel.size()>0){
-                if(foundHotel.size()>1){
-                    foundHotel.sort((hotel1,hotel2)-> String.CASE_INSENSITIVE_ORDER.compare(hotel2.getName(),hotel1.getName()));
-                    String lastSlug = foundHotel.get(foundHotel.size()-1).getTag();
-                    Integer increment = Integer.parseInt(lastSlug.substring(lastSlug.length()-1))+1;
-                    slug.append("-").append(increment.toString());
-
-
-                }else{
-                    slug.append("-1");
-                }
+                slug = tagSlugifier.slugify(foundHotel, slug);
             }
 
 
