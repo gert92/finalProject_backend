@@ -19,7 +19,6 @@ public class CustomerController {
 
     @Autowired
     public CustomerController(CustomerRepository customerRepository) {
-
         this.customerRepository = customerRepository;
     }
 
@@ -101,4 +100,4 @@ public class CustomerController {
         }
     }
 }
-//the one too
+

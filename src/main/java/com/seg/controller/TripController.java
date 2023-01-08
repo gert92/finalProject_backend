@@ -1,6 +1,7 @@
 package com.seg.controller;
 
 import com.seg.model.Trip;
+import com.seg.repository.TripRepository;
 import com.seg.service.TripService;
 import com.seg.service.impl.TripServiceImpl;
 import jakarta.validation.Valid;
@@ -50,9 +51,8 @@ public class TripController {
 
 
 
-    /**@DeleteMapping("/trips")
-    public ResponseEntity<HttpStatus> deleteAllTrips() {
-       return tripService.deleteTrips();
-    }
-    **/
+//    @DeleteMapping("/trips")
+//    public ResponseEntity<HttpStatus> deleteAllTrips() {
+//       return tripService.deleteAllTrips();
+//    }
 }

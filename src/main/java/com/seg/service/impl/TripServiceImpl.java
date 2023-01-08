@@ -1,7 +1,11 @@
 package com.seg.service.impl;
 
+import com.seg.model.Country;
+import com.seg.model.Hotel;
 import com.seg.model.Trip;
 import com.seg.model.Variation;
+import com.seg.repository.CountryRepository;
+import com.seg.repository.HotelRepository;
 import com.seg.repository.TripRepository;
 import com.seg.repository.VariationRepository;
 import com.seg.service.TripService;
@@ -18,6 +22,8 @@ import java.util.Optional;
 public class TripServiceImpl implements TripService {
 
     private TripRepository tripRepository;
+    private HotelRepository hotelRepository;
+    private CountryRepository countryRepository;
     private VariationRepository variationRepository;
 
     @Autowired
@@ -51,6 +57,13 @@ public class TripServiceImpl implements TripService {
             myTrip.getPackageVariation()
                     .setFreeSeats(myTrip.getPackageVariation().getFreeSeats()-myTrip.getAdults()-myTrip.getChildren());
             variationRepository.save(myTrip.getPackageVariation());
+
+            Hotel hotelWithUpdatedCounter = trip.getHotel();
+            hotelWithUpdatedCounter.setCounter(hotelWithUpdatedCounter.getCounter()+1);
+
+            Country countryWithUpdatedCounter = trip.getHotel().getCountry();
+            countryWithUpdatedCounter.setCounter(countryWithUpdatedCounter.getCounter()+1);
+
             return new ResponseEntity<>(trip,HttpStatus.CREATED);
         }catch(Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -122,6 +135,13 @@ public class TripServiceImpl implements TripService {
             int updatedNumberOfAvailableSeats = variation.getFreeSeats()+trip.getAdults()+trip.getChildren();
             variation.setFreeSeats(updatedNumberOfAvailableSeats);
             variationRepository.save(variation);
+
+            Hotel hotelWithUpdatedCounter = trip.getHotel();
+            hotelWithUpdatedCounter.setCounter(hotelWithUpdatedCounter.getCounter()-1);
+
+            Country countryWithUpdatedCounter = trip.getHotel().getCountry();
+            countryWithUpdatedCounter.setCounter(countryWithUpdatedCounter.getCounter()-1);
+
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
