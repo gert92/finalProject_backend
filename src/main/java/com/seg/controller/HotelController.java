@@ -13,7 +13,6 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin("http://localhost:3000")
 public class HotelController {
     private HotelRepository hotelRepository;
 
