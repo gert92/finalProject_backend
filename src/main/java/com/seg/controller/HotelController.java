@@ -27,16 +27,16 @@ public class HotelController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Hotel>> getAllHotels() {
-
-            List<Hotel> allHotels = new ArrayList<>();
-
-            hotelRepository.findAll().forEach(h -> allHotels.add(h));
-
-            if (allHotels.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<List<Hotel>> getAllHotels(@RequestParam(required = false) String search) {
+            List<Hotel> allHotels;
+            if (search == null){
+                allHotels = hotelRepository.findAll();
+            } else {
+                allHotels = hotelRepository.findByNameContainingIgnoreCaseOrCountryNameContainingIgnoreCaseOrCityNameContainingIgnoreCase(search, search, search);
             }
-
+            if (allHotels.isEmpty()) {
+                return new ResponseEntity<>(allHotels,HttpStatus.NO_CONTENT);
+            }
             return new ResponseEntity<>(allHotels, HttpStatus.OK);
 
     }

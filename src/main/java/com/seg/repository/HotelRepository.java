@@ -13,4 +13,6 @@ public interface HotelRepository extends JpaRepository<Hotel,Long> {
 
     public Optional<Hotel> findHotelByTag(String tag);
     public List<Hotel> findByTagContains (String tag);
+    List<Hotel> findByNameContainingIgnoreCaseOrCountryNameContainingIgnoreCaseOrCityNameContainingIgnoreCase(String hotelName, String countryName, String cityName);
+
 }
