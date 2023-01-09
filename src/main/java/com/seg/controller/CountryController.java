@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/countries")
 public class CountryController {
     private CountryRepository countryRepository;
 
@@ -24,7 +24,7 @@ public class CountryController {
         this.countryRepository = countryRepository;
     }
 
-    @PostMapping("/countries")
+    @PostMapping
     public ResponseEntity<Country> createCountry (@RequestBody Country country){
 
             StringBuilder slug = new StringBuilder(tagSlugifier.slugify(country.getName()));
@@ -40,14 +40,14 @@ public class CountryController {
 
     }
 
-    @GetMapping("/countries")
+    @GetMapping
     public ResponseEntity<List<Country>> getAllCountries (){
 
             List<Country> allCountries = countryRepository.findAll();
             return new ResponseEntity<>(allCountries,HttpStatus.OK);
     }
 
-    @GetMapping("/countries/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Country> findCountryById(@PathVariable long id){
 
             Optional<Country> foundCountry = countryRepository.findById(id);
@@ -57,7 +57,7 @@ public class CountryController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PutMapping("/countries/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Country> updateCountry (@PathVariable long id, @RequestBody Country country){
             Optional<Country> country1 = countryRepository.findById(id);
             if(country1.isPresent()){
@@ -71,14 +71,14 @@ public class CountryController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping("/countries/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteCountryById(@PathVariable Long id){
 
            countryRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/countries")
+    @DeleteMapping
     public ResponseEntity<HttpStatus> deleteAllCountries(){
 
             countryRepository.deleteAll();

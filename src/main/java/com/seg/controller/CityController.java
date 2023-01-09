@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/cities")
 public class CityController {
 
     private CityRepository cityRepository;
@@ -23,21 +23,21 @@ public class CityController {
         this.cityRepository = cityRepository;
     }
 
-    @PostMapping("/cities")
+    @PostMapping
     public ResponseEntity<City> createCity(@RequestBody @Valid City city) {
 
         City city1 = cityRepository.save(new City(city.getName()));
         return new ResponseEntity<>(city1, HttpStatus.CREATED);
     }
 
-    @GetMapping("/cities")
+    @GetMapping
     public ResponseEntity<List<City>> getAllCities() {
 
         List<City> allCities = cityRepository.findAll();
         return new ResponseEntity<>(allCities, HttpStatus.OK);
     }
 
-    @GetMapping("/cities/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<City> findCityById(@PathVariable long id) {
 
         Optional<City> foundCity = cityRepository.findById(id);
@@ -47,7 +47,7 @@ public class CityController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PutMapping("/cities/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<City> updateCity(@PathVariable long id, @RequestBody City city) {
 
         Optional<City> city1 = cityRepository.findById(id);
@@ -59,14 +59,14 @@ public class CityController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping("/cities/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteCityById(@PathVariable Long id) {
 
         cityRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/cities")
+    @DeleteMapping
     public ResponseEntity<HttpStatus> deleteAllCities() {
 
         cityRepository.deleteAll();

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/hotels")
 public class HotelController {
     private HotelRepository hotelRepository;
 
@@ -26,7 +26,7 @@ public class HotelController {
 
     }
 
-    @GetMapping("hotels")
+    @GetMapping
     public ResponseEntity<List<Hotel>> getAllHotels() {
 
             List<Hotel> allHotels = new ArrayList<>();
@@ -41,7 +41,7 @@ public class HotelController {
 
     }
 
-    @GetMapping("/hotels/{slug}")
+    @GetMapping("/{slug}")
     public ResponseEntity<Hotel> findHotelById(@PathVariable("slug") String slug) {
 
             Optional<Hotel> foundHotel = hotelRepository.findHotelByTag(slug);
@@ -52,7 +52,7 @@ public class HotelController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/hotels")
+    @PostMapping
     public ResponseEntity<Hotel> createHotel(@RequestBody @Valid Hotel hotel) {
 
         StringBuilder slug = new StringBuilder(tagSlugifier.slugify(hotel.getName()));
@@ -75,7 +75,7 @@ public class HotelController {
     }
 
 
-    @PutMapping("/hotels/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Hotel> updateHotel(@RequestBody Hotel hotel, @PathVariable Long id) {
 
             Optional<Hotel> foundHotel = hotelRepository.findById(id);
@@ -96,13 +96,13 @@ public class HotelController {
     }
 
 
-    @DeleteMapping("/hotels/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteHotelById(@PathVariable Long id) {
             hotelRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/hotels/")
+    @DeleteMapping
     public ResponseEntity<HttpStatus> deleteAllHotels() {
 
             hotelRepository.deleteAll();

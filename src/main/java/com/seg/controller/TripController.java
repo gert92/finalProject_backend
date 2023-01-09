@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/trips")
 public class TripController {
 
 
@@ -24,27 +24,27 @@ public class TripController {
         this.tripService= tripService;
     }
 
-    @GetMapping("/trips")
+    @GetMapping
     public ResponseEntity<List<Trip>> getAllTrips(){
         return tripService.getAllTrips();
     }
 
-    @GetMapping("/trips/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Trip> getTripById(@PathVariable long id){
         return tripService.getTripById(id);
     }
 
-    @PostMapping("/trips")
+    @PostMapping
     public ResponseEntity<Trip> createTrip(@Valid @RequestBody Trip trip) {
         return tripService.saveTrip(trip);
     }
 
-    @PutMapping("/trips/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Trip> updateTrip(@PathVariable long id,@Valid @RequestBody Trip newTrip) {
         return tripService.updateTrip(id, newTrip);
     }
 
-    @DeleteMapping("/trips")
+    @DeleteMapping
     public ResponseEntity<HttpStatus> deleteTripById(@RequestBody Trip trip) {
         return tripService.deleteTrip(trip);
     }

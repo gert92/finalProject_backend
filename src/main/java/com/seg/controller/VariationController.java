@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/variations")
 public class VariationController {
     private VariationRepository variationRepository;
 
@@ -23,7 +23,7 @@ public class VariationController {
         this.variationRepository=variationRepository;
     }
 
-    @PostMapping("/variations")
+    @PostMapping
     public ResponseEntity<Variation> createVariation (@RequestBody @Valid Variation variation){
 
             Variation newVariation = variationRepository.save(new Variation(
@@ -36,7 +36,7 @@ public class VariationController {
             return new ResponseEntity<>(newVariation,HttpStatus.OK);
     }
 
-    @GetMapping("/variations")
+    @GetMapping
     public ResponseEntity<List<Variation>> getAllVariations(){
 
             List<Variation> allVariations = new ArrayList<>();
@@ -44,14 +44,14 @@ public class VariationController {
             return new ResponseEntity<>(allVariations,HttpStatus.OK);
     }
 
-    @GetMapping("/variations/{price}")
+    @GetMapping("/{price}")
     public ResponseEntity<List<Variation>> getAllVariationsWithPriceLessThan(@PathVariable double price){
 
             List<Variation> allVariationsLessThanPrice=variationRepository.findByPriceLessThan(price);
             return new ResponseEntity<>(allVariationsLessThanPrice,HttpStatus.OK);
     }
 
-    @GetMapping("/variations/{date}")
+    @GetMapping("/{date}")
     public ResponseEntity<List<Variation>> getAllVariationsAfterDate(@PathVariable Date date){
 
             List<Variation> allVariationsAfterDate=variationRepository.findByStartDateIsAfter(date);
@@ -59,7 +59,7 @@ public class VariationController {
     }
 
 
-    @PutMapping("/variations/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Variation> updateVariation(@PathVariable long id,@RequestBody Variation variation){
 
             Optional<Variation> foundVariation = variationRepository.findById(id);
@@ -75,14 +75,14 @@ public class VariationController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping("/variations")
+    @DeleteMapping
     public ResponseEntity<HttpStatus> deleteAllVariations(){
 
             variationRepository.deleteAll();
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/variations/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteVariationById(@PathVariable long id){
             variationRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

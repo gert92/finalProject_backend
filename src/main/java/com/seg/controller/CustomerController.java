@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/users")
 public class CustomerController {
 
     private CustomerRepository customerRepository;
@@ -22,14 +22,14 @@ public class CustomerController {
         this.customerRepository = customerRepository;
     }
 
-    @GetMapping("/users")
+    @GetMapping
     public ResponseEntity<List<Customer>> getAllUsers(){
 
             List<Customer> customerList = customerRepository.findAll();
             return new ResponseEntity<>(customerList, HttpStatus.OK);
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Customer> getUsersById(@PathVariable long id){
 
             Optional<Customer> userById = customerRepository.findById(id);
@@ -39,7 +39,7 @@ public class CustomerController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/users")
+    @PostMapping
     public ResponseEntity<Customer> createCustomer(@Valid @RequestBody Customer customer) {
 
             Customer myCustomer = customerRepository.save(new Customer(customer.getFirstName(),
@@ -50,7 +50,7 @@ public class CustomerController {
             return new ResponseEntity<>(myCustomer, HttpStatus.CREATED);
     }
 
-    @PutMapping("/users/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Customer> updateUser(@PathVariable long id, @Valid @RequestBody Customer newCustomer){
 
             Optional<Customer> foundUser = customerRepository.findById(id);
@@ -67,14 +67,14 @@ public class CustomerController {
 
     }
 
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteUserById(@PathVariable long id) {
 
             customerRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/users")
+    @DeleteMapping
     public ResponseEntity<HttpStatus> deleteAllUsers() {
 
             customerRepository.deleteAll();
