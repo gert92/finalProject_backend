@@ -34,7 +34,7 @@ public class Customer {
 
     @NonNull
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "please provide person type")
+    @NotNull(message = "please provide person type ")
     private PersonType personType;
 
     @NonNull

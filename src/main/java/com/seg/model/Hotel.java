@@ -15,7 +15,6 @@ import java.util.List;
 @Setter
 @Getter
 @ToString
-
 public class Hotel implements Slugify {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

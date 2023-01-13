@@ -2,6 +2,7 @@ package com.seg.controller;
 
 import com.seg.model.Customer;
 import com.seg.repository.CustomerRepository;
+import com.seg.service.impl.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,70 +16,54 @@ import java.util.Optional;
 @RequestMapping("/api/users")
 public class CustomerController {
 
-    private CustomerRepository customerRepository;
+
+    private CustomerService customerService;
 
     @Autowired
-    public CustomerController(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
+    public CustomerController(CustomerService customerService) {
+        this.customerService = customerService;
     }
 
     @GetMapping
-    public ResponseEntity<List<Customer>> getAllUsers(){
+    public ResponseEntity<List<Customer>> findAllCustomers() {
 
-            List<Customer> customerList = customerRepository.findAll();
-            return new ResponseEntity<>(customerList, HttpStatus.OK);
+        List<Customer> customerList = customerService.getAllCustomers();
+        return new ResponseEntity<>(customerList, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Customer> getUsersById(@PathVariable long id){
+    public ResponseEntity<Customer> findCustomerById(@PathVariable long id) {
 
-            Optional<Customer> userById = customerRepository.findById(id);
-            if(userById.isPresent()){
-                return new ResponseEntity<>(userById.get(),HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(customerService.getCustomerById(id), HttpStatus.OK);
+
     }
 
     @PostMapping
-    public ResponseEntity<Customer> createCustomer(@Valid @RequestBody Customer customer) {
+    public ResponseEntity<Customer> addCustomer(@Valid @RequestBody Customer customer) {
 
-            Customer myCustomer = customerRepository.save(new Customer(customer.getFirstName(),
-                                                       customer.getLastName(),
-                                                       customer.getEmail(),
-                                                       customer.getPersonType(),
-                                                       customer.getPassportNumber()));
-            return new ResponseEntity<>(myCustomer, HttpStatus.CREATED);
+        customerService.saveCustomer(customer);
+
+        return new ResponseEntity<>(customer, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Customer> updateUser(@PathVariable long id, @Valid @RequestBody Customer newCustomer){
+    public ResponseEntity<Customer> updateCustomer(@PathVariable long id, @Valid @RequestBody Customer customer) {
 
-            Optional<Customer> foundUser = customerRepository.findById(id);
-            if(foundUser.isPresent()){
-                Customer oldCustomer = foundUser.get();
-                oldCustomer.setFirstName(newCustomer.getFirstName());
-                oldCustomer.setLastName(newCustomer.getLastName());
-                oldCustomer.setEmail(newCustomer.getEmail());
-                oldCustomer.setPersonType(newCustomer.getPersonType());
-                oldCustomer.setPassportNumber(newCustomer.getPassportNumber());
-                return new ResponseEntity<>(customerRepository.save(oldCustomer),HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
+            return new ResponseEntity<>(customerService.updateCustomer(customer), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteUserById(@PathVariable long id) {
+    public ResponseEntity<HttpStatus> deleteCustomerById(@PathVariable long id) {
 
-            customerRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        customerService.deleteCustomerById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping
-    public ResponseEntity<HttpStatus> deleteAllUsers() {
+    public ResponseEntity<HttpStatus> deleteAllCustomers() {
 
-            customerRepository.deleteAll();
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        customerService.deleteAllCustomers();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
 
