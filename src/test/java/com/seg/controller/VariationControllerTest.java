@@ -63,7 +63,7 @@ class VariationControllerTest {
 
 
     @Test
-    void shouldCreateVariation() throws Exception {
+    void shouldCreateVariationAndReturnIsOkResponse() throws Exception {
         Country country = new Country("Turkey","iiiii","oopospaos","kjksahhs");
         City city = new City("istanbul");
         Hotel hotel = new Hotel("hotel", "some hotel", "hhhggs", "jjjj", country, city, "iiii");
@@ -93,7 +93,7 @@ class VariationControllerTest {
     }
 
     @Test
-    void getAllVariations()throws Exception {
+    void shouldGetAllVariationsAndReturnIsOkResponse()throws Exception {
         Country country = new Country("Turkey","iiiii","oopospaos","kjksahhs");
         City city = new City("istanbul");
 
@@ -130,7 +130,7 @@ class VariationControllerTest {
     }
 
     @Test
-    void updateVariation() throws Exception{
+    void shouldUpdateVariationAndReturnIsOkResponse() throws Exception{
         Country country = new Country("Turkey","iiiii","oopospaos","kjksahhs");
         City city = new City("istanbul");
 
@@ -152,14 +152,14 @@ class VariationControllerTest {
     }
 
     @Test
-    void deleteAllVariations() throws Exception{
+    void shouldDeleteAllVariationsAndReturnNoContentResponse() throws Exception{
         doNothing().when(repository).deleteAll();
 
         mockMvc.perform(delete("/api/variations")).andExpect(status().isNoContent());
     }
 
     @Test
-    void deleteVariationById() throws Exception {
+    void shouldDeleteVariationByIdAndReturnNoContentResponse() throws Exception {
         Long id = 0l;
         doNothing().when(repository).deleteById(id);
 
