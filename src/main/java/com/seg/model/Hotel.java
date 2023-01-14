@@ -9,11 +9,9 @@ import lombok.*;
 import java.util.List;
 
 @Entity
-@Table(name = "hotels")
 @RequiredArgsConstructor
 @NoArgsConstructor
-@Setter
-@Getter
+@Data
 @ToString
 public class Hotel implements Slugify {
     @Id
@@ -31,7 +29,9 @@ public class Hotel implements Slugify {
     @NonNull
     private String novatoursKey;
     @NonNull
+    // no need for next line
     @JsonIgnoreProperties(value = {"hotels"}, allowSetters = true)
+    //oneToOne
     @ManyToOne
     @NotNull(message = "please provide a country for this hotel")
     private Country country;
@@ -39,13 +39,13 @@ public class Hotel implements Slugify {
     @ManyToOne
     @NotNull(message = "please provide a city for this hotel")
     private City city;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hotel")
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Variation> variations;
 
-    private int counter =0;
+    private int counter ;
     @NonNull
     @NotBlank(message = "please provide image URL")
-    private String image;
+    private String imageUrl;
 
 
 }

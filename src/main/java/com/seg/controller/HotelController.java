@@ -60,8 +60,6 @@ public class HotelController {
         if (foundHotel.size() > 0) {
             slug = tagSlugifier.slugify(foundHotel, slug);
         }
-
-
         Hotel newHotel = hotelRepository.save(new Hotel(
                 hotel.getName()
                 , hotel.getDescription()
@@ -69,7 +67,7 @@ public class HotelController {
                 , hotel.getNovatoursKey()
                 , hotel.getCountry()
                 , hotel.getCity()
-                , hotel.getImage()));
+                , hotel.getImageUrl()));
         return new ResponseEntity<>(newHotel, HttpStatus.CREATED);
 
     }
@@ -89,7 +87,7 @@ public class HotelController {
                 oldHotel.setCity(hotel.getCity());
                 oldHotel.setVariations(hotel.getVariations());
                 oldHotel.setCounter(hotel.getCounter());
-                oldHotel.setImage(hotel.getImage());
+                oldHotel.setImageUrl(hotel.getImageUrl());
 
             }
             return new ResponseEntity<>(hotelRepository.save(oldHotel), HttpStatus.OK);

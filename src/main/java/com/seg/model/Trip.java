@@ -5,12 +5,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
-@Table(name = "trip")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class Trip {
@@ -20,20 +19,18 @@ public class Trip {
     private long id;
 
     @NonNull
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.MERGE)
     @NotNull(message = "Please provide your details")
     private Customer customer;
 
     @NonNull
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "variation_id", referencedColumnName = "id")
     @NotNull(message = "Please choose a package")
     private Variation packageVariation;
 
     @NonNull
     @NotNull(message = "Please choose a date")
-    private Date departureDate;
+    private LocalDate departureDate;
 
     @NonNull
     @NotNull(message = "Please choose a date")
@@ -41,7 +38,6 @@ public class Trip {
 
     @NonNull
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "hotel_id", referencedColumnName = "id")
     @NotNull(message = "Please choose a Hotel")
     private Hotel hotel;
 

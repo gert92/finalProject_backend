@@ -5,15 +5,14 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
-@Table(name = "cities")
 @NoArgsConstructor
 @RequiredArgsConstructor
-@Setter
-@Getter
+@Data
+
 public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     @NonNull
     @NotBlank(message = "Can not be empty")
     private String name;

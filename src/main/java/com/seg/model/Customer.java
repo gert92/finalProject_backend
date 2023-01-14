@@ -8,16 +8,15 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
-@Table(name = "user")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @RequiredArgsConstructor
+@ToString
 public class Customer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     @NonNull
     @NotBlank(message = "Name can't be empty")

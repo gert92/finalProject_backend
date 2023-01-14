@@ -1,7 +1,6 @@
 package com.seg.controller;
 
 import com.seg.model.Country;
-import com.seg.model.Hotel;
 import com.seg.repository.CountryRepository;
 import com.seg.slugify.TagSlugifier;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +34,7 @@ public class CountryController {
 
             Country country1 = countryRepository.save(new Country(country.getName(),
                     slug.toString()
-            ,country.getDescription(),country.getImage()));
+            ,country.getDescription(),country.getImageUrl()));
             return new ResponseEntity<>(country1, HttpStatus.CREATED);
 
     }

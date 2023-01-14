@@ -8,17 +8,17 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.Date;
 @Entity
 @RequiredArgsConstructor
 @NoArgsConstructor
-@Setter
-@Getter
-@Table(name = "variations")
+@Data
+@ToString
 public class Variation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     @NonNull
     @NotNull(message = "please choose a date")
     private Date startDate;
@@ -36,7 +36,8 @@ public class Variation {
     private Hotel hotel;
     @NonNull
     @NotNull(message = "please enter price for this variation")
-    private Double price;
+    //change to bigdecimal
+    private BigDecimal price;
     @NotNull(message = "please enter available number of seats")
     @NonNull
     private int freeSeats;

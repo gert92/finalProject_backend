@@ -7,28 +7,28 @@ import lombok.*;
 import java.util.List;
 
 @Entity
-@Table(name = "countries")
 @NoArgsConstructor
 @RequiredArgsConstructor
-@Setter
-@Getter
+@Data
+
 public class Country implements Slugify {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     @NonNull
     @NotBlank(message = "Can not be empty")
     private String name;
     @NonNull
     private String tag;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "country")
+    // next lines to be removed
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Hotel> hotels;
     @NonNull
     @NotBlank(message = "Can not be empty")
     private String description;
-    private int counter=0;
+    private int counter;
     @NonNull
     @NotBlank(message = "Can not be empty")
-    private String image;
+    private String imageUrl;
 
 }

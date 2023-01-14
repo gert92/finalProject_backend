@@ -8,7 +8,7 @@ public class TagSlugifier {
     private  final int MAX_SLUG_LENGTH = 256;
 
     public String slugify(final String s) {
-        //algorithm used in https://github.com/slugify/slugify/blob/master/core/src/main/java/com/github/slugify/Slugify.java
+
         final String intermediateResult = Normalizer
                 .normalize(s, Normalizer.Form.NFD)
                 .replaceAll("[^\\p{ASCII}]", "")
