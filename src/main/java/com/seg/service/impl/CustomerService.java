@@ -45,13 +45,8 @@ public class CustomerService {
 
         Optional<Customer> foundUser = customerRepository.findById(customer.getId());
         if (foundUser.isPresent()) {
-            Customer oldUser = foundUser.get();
-            oldUser.setFirstName(customer.getFirstName());
-            oldUser.setLastName(customer.getLastName());
-            oldUser.setEmail(customer.getEmail());
-            oldUser.setPersonType(customer.getPersonType());
-            oldUser.setPassportNumber(customer.getPassportNumber());
-            return customerRepository.save(oldUser);
+            customerRepository.save(customer);
+            return customer;
         }
         throw new UserNotFoundException("No user by ID: " + customer.getId());
     }

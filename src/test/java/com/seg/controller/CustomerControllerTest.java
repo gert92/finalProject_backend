@@ -5,6 +5,7 @@ import com.seg.constants.PersonType;
 import com.seg.model.Customer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -14,6 +15,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -80,14 +82,14 @@ public class CustomerControllerTest {
         Customer updatedCustomer = new Customer("Eku", "Update", "Eku@mail.com", PersonType.ADULT, "A157");
 
         when(customerService.getCustomerById(0L)).thenReturn(Optional.of(customer).get());
-        when(customerService.saveCustomer(any(Customer.class))).thenReturn(updatedCustomer);
+        when(customerService.updateCustomer(any(Customer.class))).thenReturn(updatedCustomer);
 
 
-        mockMvc.perform(put("/api/users/{id}", 0L)
+        mockMvc.perform(put("/api/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(updatedCustomer)))
-                .andExpect(status().isOk());
-//                .andExpect(jsonPath("$.lastName").value(updatedCustomer.getLastName()));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.firstName").value("Eku"));
     }
 
     @Test

@@ -34,6 +34,7 @@ public class VariationController {
                     ,variation.getPrice()
                     ,variation.getFreeSeats()));
             return new ResponseEntity<>(newVariation,HttpStatus.OK);
+
     }
 
     @GetMapping
