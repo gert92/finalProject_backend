@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Country implements Slugify {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NonNull
     @NotBlank(message = "Can not be empty")

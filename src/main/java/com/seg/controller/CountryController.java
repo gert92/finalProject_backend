@@ -56,18 +56,10 @@ public class CountryController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Country> updateCountry (@PathVariable long id, @RequestBody Country country){
-            Optional<Country> country1 = countryRepository.findById(id);
-            if(country1.isPresent()){
-                Country foundCountry = country1.get();
-                foundCountry.setName(country.getName());
-                foundCountry.setDescription(country.getDescription());
-                foundCountry.setHotels(country.getHotels());
-                foundCountry.setCounter(country1.get().getCounter());
-                return new ResponseEntity<>(countryRepository.save(foundCountry),HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @PutMapping
+    public ResponseEntity<Country> updateCountry (@RequestBody Country country){
+
+            return new ResponseEntity<>(countryRepository.save(country), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

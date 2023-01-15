@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 @Entity
 @RequiredArgsConstructor
@@ -17,7 +18,7 @@ import java.util.Date;
 @ToString
 public class Variation {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NonNull
     @NotNull(message = "please choose a date")

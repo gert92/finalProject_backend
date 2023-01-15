@@ -42,7 +42,7 @@ public class HotelController {
     }
 
     @GetMapping("/{slug}")
-    public ResponseEntity<Hotel> findHotelById(@PathVariable("slug") String slug) {
+    public ResponseEntity<Hotel> findHotelBySlug(@PathVariable("slug") String slug) {
 
             Optional<Hotel> foundHotel = hotelRepository.findHotelByTag(slug);
             if (foundHotel.isPresent()) {
@@ -73,24 +73,10 @@ public class HotelController {
     }
 
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Hotel> updateHotel(@RequestBody Hotel hotel, @PathVariable Long id) {
+    @PutMapping
+    public ResponseEntity<Hotel> updateHotel(@RequestBody Hotel hotel) {
 
-            Optional<Hotel> foundHotel = hotelRepository.findById(id);
-            Hotel oldHotel = new Hotel();
-            if (foundHotel.isPresent()) {
-                oldHotel = foundHotel.get();
-                oldHotel.setName(hotel.getName());
-                oldHotel.setDescription(hotel.getDescription());
-                oldHotel.setTag(hotel.getTag());
-                oldHotel.setCountry(hotel.getCountry());
-                oldHotel.setCity(hotel.getCity());
-                oldHotel.setVariations(hotel.getVariations());
-                oldHotel.setCounter(hotel.getCounter());
-                oldHotel.setImageUrl(hotel.getImageUrl());
-
-            }
-            return new ResponseEntity<>(hotelRepository.save(oldHotel), HttpStatus.OK);
+            return new ResponseEntity<>(hotelRepository.save(hotel), HttpStatus.OK);
     }
 
 

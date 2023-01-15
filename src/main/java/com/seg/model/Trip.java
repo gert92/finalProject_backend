@@ -15,7 +15,7 @@ import java.util.Date;
 public class Trip {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @NonNull
@@ -30,7 +30,7 @@ public class Trip {
 
     @NonNull
     @NotNull(message = "Please choose a date")
-    private LocalDate departureDate;
+    private Date departureDate;
 
     @NonNull
     @NotNull(message = "Please choose a date")
