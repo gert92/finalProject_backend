@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
@@ -36,12 +37,15 @@ import static org.mockito.Mockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @WebMvcTest(VariationController.class)
+@AutoConfigureRestDocs(outputDir = "target/generated-snippets")
 class VariationControllerTest {
 
     @MockBean
@@ -49,9 +53,11 @@ class VariationControllerTest {
 
     private MockMvc mockMvc;
 
+
     @Autowired
     public VariationControllerTest(MockMvc mockMvc){
         this.mockMvc=mockMvc;
+
     }
 
     @BeforeEach
@@ -72,21 +78,14 @@ class VariationControllerTest {
                 , hotel
                 , new BigDecimal("200.00"), 4);
         when(repository.save(variation)).thenReturn(variation);
-        System.out.println(variation);
-
-        RequestBuilder request = MockMvcRequestBuilders
-                .post("/api/variations")
-                .contentType(MediaType.APPLICATION_JSON).content("{\"startDate\": \"2023-01-10\" ,\"numberOfNights\":2,\"plan\":\"AI\",\"hotel\":{\"id\":"+hotel.getId()+"},\"price\":200.00,\"freeSeats\": 4}");
-        mockMvc.perform(request)
-                .andExpect(status().isOk()).andDo(document("index"));
 
 
-        /*mockMvc.perform(post("/api/variations")
+        mockMvc.perform(post("/api/variations")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(variation)))
-                .andExpect(status().isOk());
+                        .content(new ObjectMapper().writeValueAsString(variation))).andDo(print())
+                .andExpect(status().isOk()).andDo(document("{methodName}",preprocessRequest(prettyPrint()),preprocessResponse(prettyPrint())));
 
-         */
+
 
 
 
@@ -109,24 +108,7 @@ class VariationControllerTest {
 
         mockMvc.perform(request)
                 .andExpect(status().isOk());
-                /*
-                .andExpect(content().json
-                        ("[" +
-                                "{\"startDate\":\"2023-02-10\",\"numberOfNights\":2,\"plan\":\"AI\",\"hotel\":{\"id\":"+hotel.getId()+"},\"price\":200,\"freeSeats\":4 }" +
 
-                                "]"));
-
-                 */
-
-
-    }
-
-    @Test
-    void getAllVariationsWithPriceLessThan() {
-    }
-
-    @Test
-    void getAllVariationsAfterDate() {
     }
 
     @Test
