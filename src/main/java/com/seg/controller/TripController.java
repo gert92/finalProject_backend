@@ -25,7 +25,7 @@ public class TripController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Trip>> getAllTrips(){
+    public ResponseEntity<List<Trip>> getAllTrips()throws Exception{
         return tripService.getAllTrips();
     }
 

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface TripService {
 
-    ResponseEntity<List<Trip>> getAllTrips();
+    ResponseEntity<List<Trip>> getAllTrips() throws Exception;
 
     ResponseEntity<Trip> saveTrip (Trip trip)throws Exception;
 

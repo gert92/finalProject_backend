@@ -27,10 +27,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -38,8 +35,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -97,17 +93,13 @@ class VariationControllerTest {
         City city = new City("istanbul");
 
         Hotel hotel = new Hotel("hotel", "some hotel", "hhhggs", "jjjj", country, city, "iiii");
-        when(repository.findAll()).thenReturn(Arrays.asList(new Variation(new Date(2023 - 02 - 10), 2, MealPlans.AI, hotel, new BigDecimal("200.00"), 4)));
+        Variation variation= new Variation(new Date(2023 - 02 - 10), 2, MealPlans.AI, hotel, new BigDecimal("200.00"), 4);
+        List<Variation> variations = new ArrayList<>();
+        variations.add(variation);
+        when(repository.findAll()).thenReturn(variations);
 
-        RequestBuilder request = MockMvcRequestBuilders
-                .get("/api/variations")
-                .accept(MediaType.APPLICATION_JSON).content("[" +
-                        "{\"startDate\":\"2023-02-10\",\"numberOfNights\":2,\"plan\":\"AI\",\"hotel\":{\"id\":"+hotel.getId()+"},\"price\":200,\"freeSeats\":4 }" +
-
-                        "]");
-
-        mockMvc.perform(request)
-                .andExpect(status().isOk());
+        mockMvc.perform(get("/api/variations").contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(variations))).andDo(print())
+                .andExpect(status().isOk()).andDo(document("{methodName}",preprocessRequest(prettyPrint()),preprocessResponse(prettyPrint())));
 
     }
 
@@ -126,8 +118,9 @@ class VariationControllerTest {
 
         mockMvc.perform(put("/api/variations/{id}",0l)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(updatedVariation)))
-                .andExpect(status().isOk());
+                        .content(new ObjectMapper().writeValueAsString(updatedVariation))).andDo(print())
+                .andExpect(status().isOk()).andExpect(jsonPath("$.numberOfNights").value(3))
+                .andDo(document("{methodName}",preprocessRequest(prettyPrint()),preprocessResponse(prettyPrint())));
 
 
 
@@ -137,7 +130,8 @@ class VariationControllerTest {
     void shouldDeleteAllVariationsAndReturnNoContentResponse() throws Exception{
         doNothing().when(repository).deleteAll();
 
-        mockMvc.perform(delete("/api/variations")).andExpect(status().isNoContent());
+        mockMvc.perform(delete("/api/variations")).andDo(print()).andExpect(status().isNoContent())
+                .andDo(document("{methodName}",preprocessRequest(prettyPrint()),preprocessResponse(prettyPrint())));
     }
 
     @Test
@@ -145,6 +139,7 @@ class VariationControllerTest {
         Long id = 0l;
         doNothing().when(repository).deleteById(id);
 
-        mockMvc.perform(delete("/api/variations/{id}",id)).andExpect(status().isNoContent());
+        mockMvc.perform(delete("/api/variations/{id}",id)).andDo(print()).andExpect(status().isNoContent())
+                .andDo(document("{methodName}",preprocessRequest(prettyPrint()),preprocessResponse(prettyPrint())));
     }
 }
