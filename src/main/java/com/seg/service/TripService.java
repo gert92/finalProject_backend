@@ -10,11 +10,11 @@ public interface TripService {
 
     ResponseEntity<List<Trip>> getAllTrips();
 
-    ResponseEntity<Trip> saveTrip(Trip trip);
+    ResponseEntity<Trip> saveTrip (Trip trip)throws Exception;
 
-    ResponseEntity<Trip> getTripById(Long id);
+    ResponseEntity<Trip> getTripById(Long id) throws Exception;
 
-    ResponseEntity<Trip> updateTrip(Long id,Trip trip);
+    ResponseEntity<Trip> updateTrip(Long id,Trip trip) throws Exception;
 
     ResponseEntity<HttpStatus> deleteTrip(Trip trip);
 

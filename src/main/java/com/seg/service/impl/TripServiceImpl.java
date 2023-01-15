@@ -41,16 +41,9 @@ public class TripServiceImpl implements TripService {
     @Override
     public ResponseEntity<Trip> saveTrip(Trip trip) {
 
-            Trip myTrip = tripRepository.save(new Trip(
-                    trip.getCustomer(),
-                    trip.getPackageVariation(),
-                    trip.getDepartureDate(),
-                    trip.getReturnDate(),
-                    trip.getHotel(),
-                    trip.getAdults(),
-                    trip.getChildren()));
+            Trip myTrip = tripRepository.save(trip);
 
-            myTrip.getPackageVariation()
+            /*myTrip.getPackageVariation()
                     .setFreeSeats(myTrip.getPackageVariation().getFreeSeats()-myTrip.getAdults()-myTrip.getChildren());
             variationRepository.save(myTrip.getPackageVariation());
 
@@ -59,6 +52,8 @@ public class TripServiceImpl implements TripService {
 
             Country countryWithUpdatedCounter = trip.getHotel().getCountry();
             countryWithUpdatedCounter.setCounter(countryWithUpdatedCounter.getCounter()+1);
+
+             */
 
             return new ResponseEntity<>(trip,HttpStatus.CREATED);
     }

@@ -24,7 +24,7 @@ public class Trip {
     private Customer customer;
 
     @NonNull
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @NotNull(message = "Please choose a package")
     private Variation packageVariation;
 
@@ -37,7 +37,7 @@ public class Trip {
     private Date returnDate;
 
     @NonNull
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @NotNull(message = "Please choose a Hotel")
     private Hotel hotel;
 

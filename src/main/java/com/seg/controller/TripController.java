@@ -30,17 +30,17 @@ public class TripController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Trip> getTripById(@PathVariable long id){
+    public ResponseEntity<Trip> getTripById(@PathVariable long id) throws Exception{
         return tripService.getTripById(id);
     }
 
     @PostMapping
-    public ResponseEntity<Trip> createTrip(@Valid @RequestBody Trip trip) {
+    public ResponseEntity<Trip> createTrip(@Valid @RequestBody Trip trip) throws Exception {
         return tripService.saveTrip(trip);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Trip> updateTrip(@PathVariable long id,@Valid @RequestBody Trip newTrip) {
+    public ResponseEntity<Trip> updateTrip(@PathVariable long id,@Valid @RequestBody Trip newTrip)throws Exception {
         return tripService.updateTrip(id, newTrip);
     }
 

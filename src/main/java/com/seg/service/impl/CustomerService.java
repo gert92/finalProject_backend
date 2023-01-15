@@ -21,13 +21,8 @@ public class CustomerService {
 
 
     public Customer saveCustomer(Customer customer) {
-        Customer myCustomer = customerRepository.save(new Customer(
-                customer.getFirstName(),
-                customer.getLastName(),
-                customer.getEmail(),
-                customer.getPersonType(),
-                customer.getPassportNumber()));
-        return customerRepository.save(myCustomer);
+
+        return customerRepository.save(customer);
     }
 
     public List<Customer> getAllCustomers() {

@@ -17,7 +17,7 @@ import java.util.Date;
 @ToString
 public class Variation {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NonNull
     @NotNull(message = "please choose a date")

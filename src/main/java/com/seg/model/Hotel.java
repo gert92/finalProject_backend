@@ -15,7 +15,7 @@ import java.util.List;
 @ToString
 public class Hotel implements Slugify {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @NonNull
     @NotBlank(message = "Can not be empty")
