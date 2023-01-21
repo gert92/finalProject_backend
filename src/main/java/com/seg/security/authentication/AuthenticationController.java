@@ -1,5 +1,6 @@
 package com.seg.security.authentication;
 
+
 import com.seg.security.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -7,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -23,6 +25,7 @@ public class AuthenticationController {
     ) {
         return ResponseEntity.ok(service.register(request));
     }
+
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request
@@ -31,13 +34,13 @@ public class AuthenticationController {
     }
 
     @GetMapping("/me")
-    public String logged() {
+    public ResponseEntity<User> logged(@AuthenticationPrincipal User user) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth.isAuthenticated()){
+        if (auth.isAuthenticated()) {
 
-            return "You are logged in!";
+            return new ResponseEntity<>(user,HttpStatus.OK);
         }
-        return "NOT logged in!";
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
 }
