@@ -1,11 +1,10 @@
 package com.seg.model;
 
+import com.seg.security.user.User;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -21,7 +20,7 @@ public class Trip {
     @NonNull
     @OneToOne(cascade = CascadeType.MERGE)
     @NotNull(message = "Please provide your details")
-    private Customer customer;
+    private User user;
 
     @NonNull
     @OneToOne(cascade = CascadeType.MERGE)

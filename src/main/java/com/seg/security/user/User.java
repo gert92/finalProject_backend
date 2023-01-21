@@ -1,10 +1,9 @@
 package com.seg.security.user;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,9 +22,19 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue
     private Integer id;
+
+    @NotBlank(message = "Name can't be empty")
     private String firstname;
+
+    @NotBlank(message = "Last name can't be empty")
     private String lastname;
+
+    @NotBlank(message = "Email can't be empty")
+    @Email(message = "Email is not correct")
+    @Column(unique = true)
     private String email;
+
+    @NotBlank(message = "Password can't be empty")
     private String password;
 
     @Enumerated(EnumType.STRING)
