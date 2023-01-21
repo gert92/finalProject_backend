@@ -29,16 +29,16 @@ public class SecurityConfiguration {
                 .disable()
                 .authorizeHttpRequests()
 
-                .requestMatchers(HttpMethod.GET, "/api/cities/**", "/api/countries/**", "/api/customers/**", "/api/hotels/**", "/api/trips/**", "/api/variations/**")
+                .requestMatchers(HttpMethod.GET, "/api/cities/**", "/api/countries/**", "/api/users/**", "/api/hotels/**", "/api/trips/**", "/api/variations/**", "/api/auth/**")
                 .permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/auth/**") //    /api/auth/register and /api/auth/authenticate
                 .permitAll()
 
-                .requestMatchers(HttpMethod.POST, "/api/customers/**", "/api/trips/**")
+                .requestMatchers(HttpMethod.POST, "/api/users/**", "/api/trips/**")
                 .hasAnyRole("USER", "ADMIN")
-                .requestMatchers(HttpMethod.PUT, "/api/customers/**", "/api/trips/**")
+                .requestMatchers(HttpMethod.PUT, "/api/users/**", "/api/trips/**")
                 .hasAnyRole("USER", "ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/api/customers/**", "/api/trips/**")
+                .requestMatchers(HttpMethod.DELETE, "/api/users/**", "/api/trips/**")
                 .hasAnyRole("USER", "ADMIN")
 
                 .requestMatchers(HttpMethod.POST, "/api/cities/**", "/api/countries/**", "/api/hotels/**", "/api/variations/**")
