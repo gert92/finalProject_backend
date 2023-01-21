@@ -29,13 +29,11 @@ public class SecurityConfiguration {
                 .disable()
                 .authorizeHttpRequests()
 
-                .requestMatchers(HttpMethod.GET, "/api/cities/**", "/api/countries/**", "/api/users/**", "/api/hotels/**", "/api/trips/**", "/api/variations/**", "/api/auth/register", "/api/auth/authenticate")
+                .requestMatchers(HttpMethod.GET, "/api/cities/**", "/api/countries/**", "/api/users/**", "/api/hotels/**", "/api/trips/**", "/api/variations/**", "/api/auth/**")
                 .permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/auth/**") //    /api/auth/register and /api/auth/authenticate
                 .permitAll()
 
-                .requestMatchers(HttpMethod.GET, "/api/auth/me")
-                .hasAnyRole("USER", "ADMIN")
                 .requestMatchers(HttpMethod.POST, "/api/users/**", "/api/trips/**")
                 .hasAnyRole("USER", "ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/users/**", "/api/trips/**")
