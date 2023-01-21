@@ -9,7 +9,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.expression.WebExpressionAuthorizationManager;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import static com.seg.security.user.Role.ADMIN;
+import static com.seg.security.user.Role.USER;
 
 
 @Configuration
@@ -26,16 +30,37 @@ public class SecurityConfiguration {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-//                .requestMatchers(HttpMethod.GET, "/api/hotels/**", "/api/variations/**", "/api/auth/**" )
+
+//                .requestMatchers(HttpMethod.GET, "/api/cities/**", "/api/countries/**", "/api/customers/**", "/api/hotels/**", "/api/trips/**", "/api/variations/**")
 //                .permitAll()
+//                .requestMatchers(HttpMethod.POST, "/api/auth/**") //    /api/auth/register and /api/auth/authenticate
+//                .permitAll()
+//
+//                .requestMatchers(HttpMethod.POST, "/api/customers/**", "/api/trips/**")
+//                .hasAnyRole("USER", "ADMIN")
+//                .requestMatchers(HttpMethod.PUT, "/api/customers/**", "/api/trips/**")
+//                .hasAnyRole("USER", "ADMIN")
+//                .requestMatchers(HttpMethod.DELETE, "/api/customers/**", "/api/trips/**")
+//                .hasAnyRole("USER", "ADMIN")
+//
+//                .requestMatchers(HttpMethod.POST, "/api/cities/**", "/api/countries/**", "/api/hotels/**", "/api/variations/**")
+//                .hasRole("ADMIN")
+//                .requestMatchers(HttpMethod.PUT, "/api/cities/**", "/api/countries/**", "/api/hotels/**", "/api/variations/**")
+//                .hasRole("ADMIN")
+//                .requestMatchers(HttpMethod.DELETE, "/api/cities/**", "/api/countries/**", "/api/hotels/**", "/api/variations/**")
+//                .hasRole("ADMIN")
+
+
+
+//                .and()
+//                .formLogin()
+//                .permitAll()
+//                .and()
+//                .logout()
+//                .permitAll()
+
                 .requestMatchers("/api/cities/**", "/api/countries/**", "/api/customers/**", "/api/hotels/**", "/api/trips/**", "/api/variations/**", "/api/auth/**")
                 .permitAll()
-//                .requestMatchers(HttpMethod.PUT, "/api/trips/**")
-//                .authenticated()
-//                .requestMatchers(HttpMethod.POST, "/api/trips/**")
-//                .authenticated()
-//                .requestMatchers(HttpMethod.DELETE, "/api/trips/**")
-//                .authenticated()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
