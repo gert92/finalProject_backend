@@ -31,12 +31,13 @@ public class AuthenticationController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<String> logged(@AuthenticationPrincipal User user) {
+    public String logged() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth.isAuthenticated()){
-            return new ResponseEntity<>(auth.getName(), HttpStatus.OK);
+
+            return "You are logged in!";
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return "NOT logged in!";
     }
 
 }
