@@ -25,7 +25,6 @@ public class VariationController {
 
     @PostMapping
     public ResponseEntity<Variation> createVariation (@RequestBody @Valid Variation variation){
-
             Variation newVariation = variationRepository.save(new Variation(
                      variation.getStartDate()
                     ,variation.getNumberOfNights()

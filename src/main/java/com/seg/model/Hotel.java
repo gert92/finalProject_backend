@@ -27,8 +27,6 @@ public class Hotel implements Slugify {
     @NonNull
     private String tag;
     @NonNull
-    private String novatoursKey;
-    @NonNull
     // no need for next line
     @JsonIgnoreProperties(value = {"hotels"}, allowSetters = true)
     //oneToOne
@@ -39,7 +37,7 @@ public class Hotel implements Slugify {
     @ManyToOne
     @NotNull(message = "please provide a city for this hotel")
     private City city;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hotel")
     private List<Variation> variations;
 
     private int counter ;

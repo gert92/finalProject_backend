@@ -19,7 +19,7 @@ public class SdaTravelAgencyApplication {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("http://localhost:3000/", "https://final-project-frontend-ten.vercel.app/");
+                registry.addMapping("/**").allowedOrigins("http://localhost:3000/", "https://final-project-frontend-ten.vercel.app/").allowedMethods("GET", "POST", "PUT", "DELETE");
             }
         };
     }
